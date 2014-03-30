@@ -1,0 +1,24 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!--
+        <item name="android:actionModeCloseDrawable">@drawable/ic_launcher</item>
+        <item name="android:dropDownListViewStyle">@style/MyDropDownListView</item>
+        -->
+        <item name="android:actionBarStyle">@style/MyFilesActionBar</item>
+        
+    </style>
+    
+    <style name="MyFilesActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/action_bar</item>
+        <item name="android:backgroundSplit">@color/action_bar</item>
+    </style>
+    <!--
+	<style name="MyDropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
+    	<item name="android:listSelector">@drawable/selector_list</item>
+	</style>-->
+
+</resources>

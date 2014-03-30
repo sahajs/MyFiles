@@ -1,0 +1,17 @@
+package com.trupt.myfiles.model.enums;
+
+public enum FragmentNameEnum {
+	AllFilesFragment("AllFilesFragment"), MusicFragment("MusicFragment"), VideosFragment("VideosFragment"),
+	PicturesFragment("PicturesFragment"), DocumentsFragment("DocumentsFragment"), 
+	RecentFilesFragment("RecentFilesFragment"), FavouriteFilesFragment("FavouriteFilesFragment");
+	
+	String fragmentName;
+	
+	private FragmentNameEnum() {
+	}
+	
+	private FragmentNameEnum(String name) {
+		fragmentName = name;
+	}
+	
+}

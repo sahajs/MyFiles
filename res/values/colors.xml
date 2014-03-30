@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="blue">#BB176DED</color>
+    <color name="white">#FFFFFF</color>
+    
+    <color name="action_bar">@color/blue</color>
+    <color name="action_bar_text_color">#ffffff</color>
+    <color name="filepath_text_color">#ffffff</color>
+    <color name="filepath_clicked_text_bg">#ffffff</color>
+    <color name="filepath_selected_view">#ffffff</color>
+    <color name="filepath_seperator_view">#dddddd</color>
+    <color name="menu_background">#efefef</color>
+    <color name="menu_foreground">#444444</color>
+    <color name="menu_divider">#CCCCCC</color>
+    
+</resources>

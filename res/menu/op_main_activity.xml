@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+        android:id="@+id/oiNew"
+        android:title="New"
+        android:icon="@drawable/ic_action_new"
+        android:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/osiFile"
+                android:icon="@drawable/ic_action_add_file"
+                android:title="File"/>
+            <item
+                android:id="@+id/osiFolder"
+                android:icon="@drawable/ic_action_add_folder"
+                android:title="Folder"/>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/oiSearch"
+        android:actionViewClass="android.widget.SearchView"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="Search"/>
+     <item
+        android:id="@+id/oiPaste"
+        android:icon="@drawable/ic_action_paste"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="Paste"/>
+    <item
+        android:id="@+id/oiSettings"
+        android:title="Settings"
+        android:icon="@drawable/ic_action_settings"
+        android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/oiExit"
+        android:icon="@drawable/ic_action_exit"
+        android:showAsAction="ifRoom"
+        android:title="Exit"/>
+
+</menu>

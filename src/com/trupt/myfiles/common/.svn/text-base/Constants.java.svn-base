@@ -1,0 +1,34 @@
+package com.seclore.filesecure.common;
+
+
+public class Constants {
+
+	public static class RequestCode {
+		public static final int FILE_BROWSE = 1000;
+	}
+	
+	public static class ResultCode {
+		public static final int FILE_BROWSE = 2000;
+	}
+	
+	public static class IntentExtra {
+		public static final String STORAGE_PATH = "storagePath";
+		public static final String SUPPORTED_FILE_FORMAT = "supportedFileFormat";
+		public static final String SELECTED_FILE_PATH = "selectedFilePath";
+		public static final String SELECTED_FILE_SRC_TYPE = "selectedFileSourceType";
+		public static final String FILE = "file";
+		public static final String FILE_BYTE_ARRAY = "fileByteArray";
+	}
+	
+	public static class DBConst {
+		public static final int DB_VERSION = 1;
+		public static final String DB_NAME = "SecloreDB";
+		
+		//viewed docs table
+		public static final String TABLE_VIEWED_DOCS = "ViewedDocuments";
+		public static final String COL_VIEWED_DOCS_SNO = "SrNo";
+		public static final String COL_VIEWED_DOCS_FILE_SOURCE_TYPE = "FileSourceType";
+		public static final String COL_VIEWED_DOCS_FILE_SOURCE = "FileSource";
+		public static final String COL_VIEWED_DOCS_LAST_VIEWED = "LastViewed";
+	}
+}
