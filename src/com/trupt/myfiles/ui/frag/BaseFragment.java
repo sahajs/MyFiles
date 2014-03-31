@@ -1,6 +1,7 @@
 package com.trupt.myfiles.ui.frag;
 
 import android.app.Activity;
+import android.app.Fragment;
 
 import com.trupt.myfiles.listener.FileBrowseListener;
 

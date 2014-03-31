@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.ActionMode;
@@ -27,7 +28,6 @@ import android.widget.TextView;
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.adapter.FileListAdapter;
 import com.trupt.myfiles.animation.ImageAnimation;
-import com.trupt.myfiles.common.Constants;
 import com.trupt.myfiles.core.Global;
 import com.trupt.myfiles.model.RecentFile;
 import com.trupt.myfiles.model.RecentFileManager;
@@ -36,7 +36,8 @@ import com.trupt.myfiles.ui.OnFilePathHSVClickListener;
 import com.trupt.myfiles.ui.view.ThumbnailImageView;
 import com.trupt.myfiles.util.FileUtil;
 
-public abstract class FileFragment extends BaseFragment implements OnItemClickListener, OnItemLongClickListener, OnFilePathHSVClickListener {
+public abstract class FileFragment extends BaseFragment implements OnItemClickListener, 
+		OnItemLongClickListener, OnFilePathHSVClickListener {
 	
 	protected ListView listViewFileList;
 	protected TextView textViewEmptyDirectory;
@@ -56,6 +57,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 	protected String originFilePath;
 	
 	protected boolean isFirstTime = true;
+	
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -116,12 +118,6 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		isFirstTime = false;
 	}
 	
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-		inflater.inflate(R.menu.op_file_browse_fragment, menu);
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -271,6 +267,19 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			Global.setActionMode(mode);
+			switch (item.getItemId()) {
+				case R.id.ciShare:
+					ArrayList<File> files = new ArrayList<File>();
+					for(int index : alSelectedViewIndex) {
+						File file = alFileList.get(index);
+						files.add(file);
+					}
+					shareFiles(files);
+					break;
+				default:
+					break;
+			}
 			return true;
 		}
 
@@ -284,7 +293,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 			Global.getActionMode().setTitle("" + alSelectedViewIndex.size());
 			return true;
 		}
-
+		
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			//Remove all selected views
@@ -310,6 +319,23 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 			return false;
 		}
+		
+		private void shareFiles(ArrayList<File> listFiles) {
+			Intent intent = new Intent();
+			intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+			intent.setType("*/*");
+
+			ArrayList<Uri> files = new ArrayList<Uri>();
+
+			for(File file : listFiles) {
+				Uri uri = Uri.fromFile(file);
+				files.add(uri);
+			}
+			
+			intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, files);
+			startActivity(Intent.createChooser(intent, "Share with"));
+		}
+
 	}
 	
 	@Override

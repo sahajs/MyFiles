@@ -128,8 +128,9 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (menuDrawableToggle.onOptionsItemSelected(item)) {
 			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

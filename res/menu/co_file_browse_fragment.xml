@@ -19,6 +19,7 @@
     <item
         android:showAsAction="never"
         android:id="@+id/ciRename"
+        android:icon="@drawable/ic_action_exit"
         android:title="Rename"/>
     <item
         android:showAsAction="ifRoom"
@@ -26,13 +27,14 @@
         android:icon="@drawable/ic_action_select_all"
         android:title="Select All"/>
     <item
-        android:showAsAction="ifRoom"
+        android:showAsAction="never"
         android:id="@+id/ciDetails"
+        android:icon="@drawable/ic_action_exit"
         android:title="Details"/>
 	<item 
 	    android:showAsAction="always"
         android:id="@+id/ciShare"
+        android:icon="@drawable/ic_action_share"
         android:title="Share"
-	    android:actionProviderClass="android.widget.ShareActionProvider"
 	    />
 </menu>

@@ -23,8 +23,7 @@
             android:id="@+id/linearLayoutSliderBottom"
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:orientation="horizontal" 
-            android:background="#EEECECEC">
+            android:orientation="horizontal">
         </LinearLayout>
     </LinearLayout>
 
