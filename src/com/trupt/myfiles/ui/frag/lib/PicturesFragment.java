@@ -6,11 +6,9 @@ import java.io.FileFilter;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.enums.FileTypeEnum;
 import com.trupt.myfiles.model.enums.MediaTypeEnum;
 import com.trupt.myfiles.util.FileUtil;
-
 
 public class PicturesFragment extends LibraryFragment {
 	

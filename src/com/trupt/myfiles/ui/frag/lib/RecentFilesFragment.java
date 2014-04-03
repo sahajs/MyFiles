@@ -4,9 +4,7 @@ import java.io.FileFilter;
 
 import android.view.View;
 
-import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.RecentFileManager;
-
 
 public class RecentFilesFragment extends LibraryFragment {
 	

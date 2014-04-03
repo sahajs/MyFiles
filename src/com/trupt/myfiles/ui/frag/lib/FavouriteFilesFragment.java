@@ -5,8 +5,6 @@ import java.io.FileFilter;
 import android.view.View;
 
 import com.trupt.myfiles.model.FavouriteFileManager;
-import com.trupt.myfiles.model.MyFragSingle;
-
 
 public class FavouriteFilesFragment extends LibraryFragment {
 	

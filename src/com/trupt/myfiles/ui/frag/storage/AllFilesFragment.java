@@ -11,21 +11,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
-import com.trupt.myfiles.R;
 import com.trupt.myfiles.common.Constants;
 import com.trupt.myfiles.model.FileSortType;
-import com.trupt.myfiles.ui.FilePathHorizontalScrollView;
 import com.trupt.myfiles.ui.OnFilePathHSVClickListener;
 import com.trupt.myfiles.ui.frag.FileFragment;
 import com.trupt.myfiles.util.FileUtil;
-
+ 
 public class AllFilesFragment extends FileFragment implements OnFilePathHSVClickListener {
 
 	private static final int PERIOD_AUTO_REFRESH = 500;
@@ -74,7 +70,7 @@ public class AllFilesFragment extends FileFragment implements OnFilePathHSVClick
 	@Override
 	public void onItemClick(AdapterView<?> aView, View view, int index,
 			long arg3) {
-		Vibrator vibrator = (Vibrator) AllFilesFragment.this.getActivity()
+		Vibrator vibrator = (Vibrator) AllFilesFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
 		selectedViewIndex = listViewFileList.getFirstVisiblePosition();
@@ -83,7 +79,7 @@ public class AllFilesFragment extends FileFragment implements OnFilePathHSVClick
 		if (isSelectEnable == false) {
 			if (file.isDirectory()) {
 				if (!file.canRead() || !file.exists()) {
-					Toast.makeText(getActivity(), "Unable to open.",
+					Toast.makeText(activity, "Unable to open.",
 							Toast.LENGTH_SHORT).show();
 				} else {
 					fileStorageObserver.stopWatching();
@@ -128,7 +124,7 @@ public class AllFilesFragment extends FileFragment implements OnFilePathHSVClick
 		try {
 			startActivity(intent);
 		} catch (Exception e) {
-			Toast.makeText(getActivity(), "Application not available.",
+			Toast.makeText(activity, "Application not available.",
 					Toast.LENGTH_SHORT).show();
 		}
 	}

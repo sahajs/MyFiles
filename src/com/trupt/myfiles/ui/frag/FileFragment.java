@@ -88,7 +88,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		alFileList = new ArrayList<File>();
 
 		isSelectEnable = false;
-		fileListAdapter = new FileListAdapter(getActivity(), alFileList, isSelectEnable, alSelectedViewIndex);
+		fileListAdapter = new FileListAdapter(activity, alFileList, isSelectEnable, alSelectedViewIndex);
 		listViewFileList.setAdapter(fileListAdapter);
 		
 		//horizontalScrollViewFilePath = (FilePathHorizontalScrollView) view
@@ -97,7 +97,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		//horizontalScrollViewFilePath.setOnFilePathHSVClickListener(this);
 		//llFilePath = (LinearLayout) view.findViewById(R.id.llFilePath);
 		if(horizontalScrollViewFilePath == null) {
-			horizontalScrollViewFilePath = new FilePathHorizontalScrollView(getActivity());
+			horizontalScrollViewFilePath = new FilePathHorizontalScrollView(activity);
 			horizontalScrollViewFilePath.setHorizontalScrollBarEnabled(false);
 			horizontalScrollViewFilePath.setOnFilePathHSVClickListener(this);
 			horizontalScrollViewFilePath.setTag(getFragmentName());
@@ -109,9 +109,8 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		super.onActivityCreated(savedInstanceState);
 		restoreSavedInstanceState(savedInstanceState);
 		if(isFirstTime == true) {
-			getActivity().getActionBar().setCustomView(horizontalScrollViewFilePath);
-			getActivity().getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		
+			activity.getActionBar().setCustomView(horizontalScrollViewFilePath);
+			activity.getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		}
 		setUpTitle();
 		setUpViews();
@@ -143,14 +142,14 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 			isSelectEnable = savedInstanceState.getBoolean("IS_SELECT_ENABLE");
 			alSelectedViewIndex = (ArrayList<Integer>)savedInstanceState.getSerializable("LIST_SELECTED_VIEW_INDEX");
 			if(isSelectEnable) {
-				getActivity().startActionMode(new SelectActionMode());
+				activity.startActionMode(new SelectActionMode());
 			}
 		}
 	}
 	
 	public void onItemClick(AdapterView<?> aView, View view, int index,
 			long arg3) {
-		Vibrator vibrator = (Vibrator) FileFragment.this.getActivity()
+		Vibrator vibrator = (Vibrator) FileFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
 		selectedViewIndex = listViewFileList.getFirstVisiblePosition();
@@ -167,10 +166,10 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 	public boolean onItemLongClick(AdapterView<?> arg0, View view, int index,
 			long arg3) {
 		if (alSelectedViewIndex.size() == 0) {
-			Vibrator vibrator = (Vibrator) FileFragment.this
-					.getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+			Vibrator vibrator = (Vibrator) FileFragment
+					.activity.getSystemService(Context.VIBRATOR_SERVICE);
 			vibrator.vibrate(60);
-			getActivity().startActionMode(new SelectActionMode());
+			activity.startActionMode(new SelectActionMode());
 			updateView(view, index);
 			return true;
 		}
@@ -180,13 +179,13 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 	public void drawerClosed() {
 		if(isSelectEnable) {
 			//remove custom view
-			getActivity().startActionMode(new SelectActionMode());
+			activity.startActionMode(new SelectActionMode());
 		}
 	}
 	
 	public void drawerOpened() {
-		TextView tv = new TextView(getActivity());
-		getActivity().getActionBar().setCustomView(tv);
+		TextView tv = new TextView(activity);
+		activity.getActionBar().setCustomView(tv);
 		//add custom view
 	}
 			
@@ -206,7 +205,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		//TODO: Save filepath for recent docs
 		RecentFile recentFile = new RecentFile(file, System.currentTimeMillis());
 		RecentFileManager.getInstance().addFile(recentFile);
-		//DataStorageUtil.saveToFile(getActivity(), Constants.DataStoragePath.RECENT_FILE_STOREGE_PATH, file);
+		//DataStorageUtil.saveToFile(activity, Constants.DataStoragePath.RECENT_FILE_STOREGE_PATH, file);
 	}
 	
 	protected void setUpTitle() {
@@ -245,8 +244,12 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 				Global.getActionMode().finish();
 			}
 		}
+		updateSelectedTitle();
+	}
+	
+	protected void updateSelectedTitle() {
 		if (Global.getActionMode() != null) {
-			Global.getActionMode().setTitle("" + alSelectedViewIndex.size());
+			Global.getActionMode().setTitle("" + alSelectedViewIndex.size() + " Selected");
 		}
 	}
 	
@@ -264,10 +267,13 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 	}
 	
 	private class SelectActionMode implements ActionMode.Callback {
+		
+		private boolean isAllSelected;
 
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			Global.setActionMode(mode);
+			isAllSelected = false;
 			switch (item.getItemId()) {
 				case R.id.ciShare:
 					ArrayList<File> files = new ArrayList<File>();
@@ -277,7 +283,15 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 					}
 					shareFiles(files);
 					break;
-				default:
+				case R.id.ciSelectAll:
+					alSelectedViewIndex.clear();
+					for(int i = 0; i < alFileList.size(); i++) {
+						alSelectedViewIndex.add(i);
+					}
+					fileListAdapter.notifyDataSetChanged();
+					updateSelectedTitle();
+					isAllSelected = true;
+					mode.invalidate();
 					break;
 			}
 			return true;
@@ -288,9 +302,9 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 			Global.setActionMode(mode);
 			isSelectEnable = true;
 			fileListAdapter.setIsSelectEnable(isSelectEnable);
-			MenuInflater menuInflater = getActivity().getMenuInflater();
+			MenuInflater menuInflater = activity.getMenuInflater();
 			menuInflater.inflate(R.menu.co_file_browse_fragment, menu);
-			Global.getActionMode().setTitle("" + alSelectedViewIndex.size());
+			updateSelectedTitle();
 			return true;
 		}
 		
@@ -317,13 +331,17 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
+			if(isAllSelected) {
+				menu.getItem(4).setEnabled(false);
+				//TODO set disabled icon
+			}
+			return true;
 		}
 		
 		private void shareFiles(ArrayList<File> listFiles) {
 			Intent intent = new Intent();
 			intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-			intent.setType("*/*");
+			intent.setType(FileUtil.getCommonMimeType(listFiles));
 
 			ArrayList<Uri> files = new ArrayList<Uri>();
 

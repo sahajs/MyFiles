@@ -1,7 +1,6 @@
 package com.trupt.myfiles.ui.frag;
 
 import android.app.Activity;
-import android.app.Fragment;
 
 import com.trupt.myfiles.listener.FileBrowseListener;
 
@@ -18,7 +17,7 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         BaseFragment.activity = activity;
-    }
+    } 
 		
 	public void onActivityBackPressed() {
 		fileBrowseListener.onFileBrowseCancelled();

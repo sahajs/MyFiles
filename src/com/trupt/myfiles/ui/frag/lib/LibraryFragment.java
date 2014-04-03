@@ -5,7 +5,6 @@ import java.io.File;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +12,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Toast;
 
-import com.trupt.myfiles.common.Constants;
 import com.trupt.myfiles.model.enums.MediaTypeEnum;
 import com.trupt.myfiles.ui.frag.FileFragment;
 import com.trupt.myfiles.util.FileUtil;
-
 
 public class LibraryFragment extends FileFragment implements OnItemClickListener, OnItemLongClickListener {
 			
@@ -33,7 +30,7 @@ public class LibraryFragment extends FileFragment implements OnItemClickListener
 			try {
 				startActivity(intent);
 			} catch (Exception e) {
-				Toast.makeText(getActivity(), "Application not available.",
+				Toast.makeText(activity, "Application not available.",
 						Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -42,7 +39,7 @@ public class LibraryFragment extends FileFragment implements OnItemClickListener
 			String[] projection = new String[]{ MediaStore.Images.Media.DATA };
 			Uri uri = getMediaUri();
 			
-			Cursor cur = MediaStore.Images.Media.query(getActivity().getContentResolver(), uri, projection, null, MediaStore.Images.Media.TITLE);
+			Cursor cur = MediaStore.Images.Media.query(activity.getContentResolver(), uri, projection, null, MediaStore.Images.Media.TITLE);
 			if (cur.moveToFirst()) {
 				int dataCol = cur.getColumnIndex(MediaStore.Images.Media.DATA);
 		        do {

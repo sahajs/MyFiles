@@ -6,11 +6,9 @@ import java.io.FileFilter;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.enums.FileTypeEnum;
 import com.trupt.myfiles.model.enums.MediaTypeEnum;
 import com.trupt.myfiles.util.FileUtil;
-
 
 public class VideosFragment extends LibraryFragment {
 	
@@ -37,7 +35,7 @@ public class VideosFragment extends LibraryFragment {
 		Uri videos = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 		Log.e("URI", videos.getPath());
 		
-		Cursor cur = MediaStore.Video.query(getActivity().getContentResolver(), videos, projection);
+		Cursor cur = MediaStore.Video.query(activity.getContentResolver(), videos, projection);
 		
 		Log.i("ListingImages", Arrays.toString(cur.getColumnNames()) );
 		Log.i("ListingImages"," query count="+cur.getCount());

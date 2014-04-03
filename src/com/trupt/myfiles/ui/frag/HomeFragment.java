@@ -11,8 +11,6 @@ import android.os.Vibrator;
 import android.provider.MediaStore;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +31,7 @@ import com.trupt.myfiles.util.FileUtil;
 
 public class HomeFragment extends BaseFragment implements
 		OnItemClickListener {
-	
+	 
 	private GridView gridViewHomeItems;
 	private HomeItemsAdapter adapterhomeItems;
 	private ArrayList<HomeItems> listHomeItems;
@@ -56,11 +54,11 @@ public class HomeFragment extends BaseFragment implements
 		gridViewHomeItems.setOnItemClickListener(this);
 
 		listHomeItems = new ArrayList<HomeItems>();
-		adapterhomeItems = new HomeItemsAdapter(listHomeItems, getActivity());
+		adapterhomeItems = new HomeItemsAdapter(listHomeItems, activity);
 		gridViewHomeItems.setAdapter(adapterhomeItems);
 		
 		if(horizontalScrollViewFilePath == null) {
-			horizontalScrollViewFilePath = new FilePathHorizontalScrollView(getActivity());
+			horizontalScrollViewFilePath = new FilePathHorizontalScrollView(activity);
 			horizontalScrollViewFilePath.setHorizontalScrollBarEnabled(false);
 			horizontalScrollViewFilePath.setTag(getFragmentName());
 		}
@@ -74,8 +72,8 @@ public class HomeFragment extends BaseFragment implements
 				
 		restoreSavedInstanceState(savedInstanceState);
 		if(isFirstTime == true) {
-			getActivity().getActionBar().setCustomView(horizontalScrollViewFilePath);
-			getActivity().getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+			activity.getActionBar().setCustomView(horizontalScrollViewFilePath);
+			activity.getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		}
 		
 		setUpTitle();
@@ -109,7 +107,7 @@ public class HomeFragment extends BaseFragment implements
 	@Override
 	public void onItemClick(AdapterView<?> aView, View view, int index,
 			long arg3) {
-		Vibrator vibrator = (Vibrator) HomeFragment.this.getActivity()
+		Vibrator vibrator = (Vibrator) HomeFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
 		HomeItems homeItems = (HomeItems) gridViewHomeItems.getItemAtPosition(index);
@@ -120,15 +118,7 @@ public class HomeFragment extends BaseFragment implements
 	public void onActivityBackPressed() {
 		fileBrowseListener.onFileBrowseCompleted();
 	}
-	
-	public void drawerClosed() {
-	}
-	
-	public void drawerOpened() {
-		TextView tv = new TextView(getActivity());
-		getActivity().getActionBar().setCustomView(tv);
-	}
-	
+		
 	@Override
 	public void dismissSelectionMode() {	
 		ActionMode actionMode = Global.getActionMode();

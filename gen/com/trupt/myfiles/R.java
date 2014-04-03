@@ -17,18 +17,18 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int action_bar=0x7f050002;
-        public static final int action_bar_text_color=0x7f050003;
-        public static final int blue=0x7f050000;
-        public static final int colors=0x7f05000b;
-        public static final int filepath_clicked_text_bg=0x7f050005;
-        public static final int filepath_selected_view=0x7f050006;
-        public static final int filepath_seperator_view=0x7f050007;
-        public static final int filepath_text_color=0x7f050004;
-        public static final int menu_background=0x7f050008;
-        public static final int menu_divider=0x7f05000a;
-        public static final int menu_foreground=0x7f050009;
-        public static final int white=0x7f050001;
+        public static final int action_bar=0x7f060002;
+        public static final int action_bar_text_color=0x7f060003;
+        public static final int blue=0x7f060000;
+        public static final int colors=0x7f06000b;
+        public static final int filepath_clicked_text_bg=0x7f060005;
+        public static final int filepath_selected_view=0x7f060006;
+        public static final int filepath_seperator_view=0x7f060007;
+        public static final int filepath_text_color=0x7f060004;
+        public static final int menu_background=0x7f060008;
+        public static final int menu_divider=0x7f06000a;
+        public static final int menu_foreground=0x7f060009;
+        public static final int white=0x7f060001;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -37,8 +37,8 @@ public final class R {
          screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here.
     
          */
-        public static final int activity_horizontal_margin=0x7f060000;
-        public static final int activity_vertical_margin=0x7f060001;
+        public static final int activity_horizontal_margin=0x7f070000;
+        public static final int activity_vertical_margin=0x7f070001;
     }
     public static final class drawable {
         public static final int border=0x7f020000;
@@ -89,52 +89,53 @@ public final class R {
         public static final int ic_my_pictures=0x7f02002d;
         public static final int ic_my_recent_files=0x7f02002e;
         public static final int ic_my_videos=0x7f02002f;
-        public static final int ic_selected=0x7f020030;
-        public static final int listview_divider=0x7f020031;
-        public static final int longpressed_holo_light=0x7f020032;
-        public static final int pressed_holo_light=0x7f020033;
-        public static final int round_corner=0x7f020034;
-        public static final int selector_file_path_button=0x7f020035;
-        public static final int selector_file_path_button_current=0x7f020036;
-        public static final int selector_list=0x7f020037;
+        public static final int ic_path_separator=0x7f020030;
+        public static final int ic_selected=0x7f020031;
+        public static final int listview_divider=0x7f020032;
+        public static final int longpressed_holo_light=0x7f020033;
+        public static final int pressed_holo_light=0x7f020034;
+        public static final int round_corner=0x7f020035;
+        public static final int selector_file_path_button=0x7f020036;
+        public static final int selector_file_path_button_current=0x7f020037;
+        public static final int selector_list=0x7f020038;
     }
     public static final class id {
-        public static final int ciCopy=0x7f0a0018;
-        public static final int ciCut=0x7f0a0017;
-        public static final int ciDelete=0x7f0a0016;
-        public static final int ciDetails=0x7f0a001b;
-        public static final int ciRename=0x7f0a0019;
-        public static final int ciSelectAll=0x7f0a001a;
-        public static final int ciShare=0x7f0a001c;
-        public static final int drawerLayoutMainMenu=0x7f0a0000;
-        public static final int exListViewMainMenu=0x7f0a0003;
-        public static final int gridViewHomeItems=0x7f0a0009;
-        public static final int horizontalScrollViewFilePath=0x7f0a0015;
-        public static final int ivFileTypeImage=0x7f0a000e;
-        public static final int ivItemImage=0x7f0a000a;
-        public static final int linearLayoutDetails=0x7f0a0008;
-        public static final int linearLayoutSliderBottom=0x7f0a0002;
-        public static final int listViewFileBrowse=0x7f0a0007;
-        public static final int oiExit=0x7f0a0023;
-        public static final int oiNew=0x7f0a001d;
-        public static final int oiPaste=0x7f0a0021;
-        public static final int oiSearch=0x7f0a0020;
-        public static final int oiSettings=0x7f0a0022;
-        public static final int osiFile=0x7f0a001e;
-        public static final int osiFolder=0x7f0a001f;
-        public static final int pager=0x7f0a0004;
-        public static final int textViewEmptyDirectory=0x7f0a0006;
-        public static final int tvFileCreationTime=0x7f0a0010;
-        public static final int tvFileName=0x7f0a000f;
-        public static final int tvFilePath=0x7f0a0012;
-        public static final int tvFileSize=0x7f0a0011;
-        public static final int tvMenuName=0x7f0a0005;
-        public static final int tvNoOfFiles=0x7f0a000c;
-        public static final int tvSize=0x7f0a000d;
-        public static final int tvTitle=0x7f0a000b;
-        public static final int vBottom=0x7f0a0014;
-        public static final int vRight=0x7f0a0013;
-        public static final int viewPagerMain=0x7f0a0001;
+        public static final int ciCopy=0x7f0b0018;
+        public static final int ciCut=0x7f0b0017;
+        public static final int ciDelete=0x7f0b0016;
+        public static final int ciDetails=0x7f0b001b;
+        public static final int ciRename=0x7f0b0019;
+        public static final int ciSelectAll=0x7f0b001a;
+        public static final int ciShare=0x7f0b001c;
+        public static final int drawerLayoutMainMenu=0x7f0b0000;
+        public static final int exListViewMainMenu=0x7f0b0003;
+        public static final int gridViewHomeItems=0x7f0b0009;
+        public static final int horizontalScrollViewFilePath=0x7f0b0015;
+        public static final int ivFileTypeImage=0x7f0b000e;
+        public static final int ivItemImage=0x7f0b000a;
+        public static final int linearLayoutDetails=0x7f0b0008;
+        public static final int linearLayoutSliderBottom=0x7f0b0002;
+        public static final int listViewFileBrowse=0x7f0b0007;
+        public static final int oiExit=0x7f0b0023;
+        public static final int oiNew=0x7f0b001d;
+        public static final int oiPaste=0x7f0b0021;
+        public static final int oiSearch=0x7f0b0020;
+        public static final int oiSettings=0x7f0b0022;
+        public static final int osiFile=0x7f0b001e;
+        public static final int osiFolder=0x7f0b001f;
+        public static final int pager=0x7f0b0004;
+        public static final int textViewEmptyDirectory=0x7f0b0006;
+        public static final int tvFileCreationTime=0x7f0b0010;
+        public static final int tvFileName=0x7f0b000f;
+        public static final int tvFilePath=0x7f0b0012;
+        public static final int tvFileSize=0x7f0b0011;
+        public static final int tvMenuName=0x7f0b0005;
+        public static final int tvNoOfFiles=0x7f0b000c;
+        public static final int tvSize=0x7f0b000d;
+        public static final int tvTitle=0x7f0b000b;
+        public static final int vBottom=0x7f0b0014;
+        public static final int vRight=0x7f0b0013;
+        public static final int viewPagerMain=0x7f0b0001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -151,18 +152,20 @@ public final class R {
         public static final int view_action_bar_title=0x7f03000b;
     }
     public static final class menu {
-        public static final int co_file_browse_fragment=0x7f090000;
-        public static final int op_main_activity=0x7f090001;
+        public static final int co_file_browse_fragment=0x7f0a0000;
+        public static final int op_main_activity=0x7f0a0001;
     }
     public static final class string {
-        public static final int action_settings=0x7f070003;
-        public static final int all_files=0x7f070001;
-        public static final int app_name=0x7f070000;
-        public static final int drawer_close=0x7f070006;
-        public static final int drawer_open=0x7f070005;
-        public static final int hello_world=0x7f070004;
-        public static final int menu=0x7f070002;
-        public static final int no_files=0x7f070007;
+        public static final int action_settings=0x7f080003;
+        public static final int all_files=0x7f080001;
+        public static final int app_name=0x7f080000;
+        public static final int drawer_close=0x7f080006;
+        public static final int drawer_open=0x7f080005;
+        public static final int hello_world=0x7f080004;
+        public static final int menu=0x7f080002;
+        public static final int no_files=0x7f080007;
+        public static final int search_hint=0x7f080009;
+        public static final int search_label=0x7f080008;
     }
     public static final class style {
         /** 
@@ -177,8 +180,11 @@ public final class R {
     
  the theme applied to the application or activity 
          */
-        public static final int AppBaseTheme=0x7f080000;
-        public static final int AppTheme=0x7f080001;
-        public static final int MyFilesActionBar=0x7f080002;
+        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppTheme=0x7f090001;
+        public static final int MyFilesActionBar=0x7f090002;
+    }
+    public static final class xml {
+        public static final int searchable=0x7f050000;
     }
 }

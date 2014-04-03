@@ -9,12 +9,9 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 
-import com.trupt.myfiles.R;
-import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.enums.FileTypeEnum;
 import com.trupt.myfiles.model.enums.MediaTypeEnum;
 import com.trupt.myfiles.util.FileUtil;
-
 
 public class DocumentsFragment extends LibraryFragment {
 	
@@ -54,7 +51,7 @@ public class DocumentsFragment extends LibraryFragment {
 		whereArgs.delete(whereArgs.length() - 4, whereArgs.length());
 		Uri uri = getMediaUri();
 		
-		Cursor cur = MediaStore.Images.Media.query(getActivity().getContentResolver(), uri, projection, whereArgs.toString(), MediaStore.Images.Media.TITLE);
+		Cursor cur = MediaStore.Images.Media.query(activity.getContentResolver(), uri, projection, whereArgs.toString(), MediaStore.Images.Media.TITLE);
 
 		if (cur.moveToFirst()) {	        
 	        int dataCol = cur.getColumnIndex(MediaStore.Images.Media.DATA);

@@ -352,40 +352,40 @@ public class FileUtil {
 		ArrayList<File> listFolder = null;
 		ArrayList<File> listFile = null;
 		
-		if (path == null) {
-			path = Environment.getExternalStorageDirectory().getAbsolutePath();
-		}
-
-		File startFile = new File(path);
-
-		ArrayList<File> listContents = new ArrayList<File>();
-		listContents.addAll(Arrays.asList(startFile.listFiles()));
-
-		if (listContents.size() != 0) {
-			for(File file : listContents) {
-				if(isHiddenAlso || !file.isHidden()) {
-					if(file.isDirectory()) {
-						if(listFolder == null) {
-							listFolder = new ArrayList<File>();
+		if (path != null) {		
+			File startFile = new File(path);
+			
+			if(startFile != null) {
+				ArrayList<File> listContents = new ArrayList<File>();
+				listContents.addAll(Arrays.asList(startFile.listFiles()));
+		
+				if (listContents.size() != 0) {
+					for(File file : listContents) {
+						if(isHiddenAlso || !file.isHidden()) {
+							if(file.isDirectory()) {
+								if(listFolder == null) {
+									listFolder = new ArrayList<File>();
+								}
+								listFolder.add(file);
+							} else {
+								if(listFile == null) {
+									listFile = new ArrayList<File>();
+								}
+								listFile.add(file);
+							}
 						}
-						listFolder.add(file);
-					} else {
-						if(listFile == null) {
-							listFile = new ArrayList<File>();
-						}
-						listFile.add(file);
 					}
-				}
+					if(listFolder != null) {
+						Collections.sort(listFolder, ComparatorUtil.getComparator(sortType));
+						listAllFiles.addAll(listFolder);
+					}
+					if(listFile != null) {
+						Collections.sort(listFile, ComparatorUtil.getComparator(sortType));
+						listAllFiles.addAll(listFile);
+					}
+				}	
 			}
-			if(listFolder != null) {
-				Collections.sort(listFolder, ComparatorUtil.getComparator(sortType));
-				listAllFiles.addAll(listFolder);
-			}
-			if(listFile != null) {
-				Collections.sort(listFile, ComparatorUtil.getComparator(sortType));
-				listAllFiles.addAll(listFile);
-			}
-		}	
+		}
 		return listAllFiles;
 	}	
 
@@ -432,4 +432,8 @@ public class FileUtil {
 		}	
 		return mapFiles;
 	}	
+	
+	public static String getCommonMimeType(ArrayList<File> files) {
+		return "*/*";
+	}
 }

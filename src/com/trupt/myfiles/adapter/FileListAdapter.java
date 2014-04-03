@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.trupt.myfiles.R;
-import com.trupt.myfiles.animation.ImageAnimation;
 import com.trupt.myfiles.model.enums.ThumbnailTypeEnum;
 import com.trupt.myfiles.ui.view.ThumbnailImageView;
 import com.trupt.myfiles.util.FileUtil;
@@ -27,8 +26,8 @@ public class FileListAdapter extends BaseAdapter {
 	private ArrayList<File> fileList;
 	private boolean isSelectEnable;
 	private ArrayList<Integer> listSelectedViewIndex;
-	
-	private View view;
+	 
+	private View view; 
 	
 	public FileListAdapter(Context context, ArrayList<File> fileList,
 			boolean isSelectEnable, ArrayList<Integer> listSelectedViewIndex) {
@@ -80,7 +79,7 @@ public class FileListAdapter extends BaseAdapter {
 		if(file.isDirectory()) {
 			tvFileSize.setText("");
 		} else {
-			tvFileSize.setText(FileUtil.formatSize(file.length()));
+			tvFileSize.setText(Formatter.formatFileSize(context, file.length()));
 		}
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
@@ -184,4 +183,5 @@ public class FileListAdapter extends BaseAdapter {
 	public void setIsSelectEnable(Boolean isSelectEnable) {
 		this.isSelectEnable = isSelectEnable;
 	}
+
 }

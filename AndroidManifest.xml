@@ -23,9 +23,17 @@
     	<meta-data android:name="com.samsung.android.sdk.multiwindow.multiinstance.enable" android:value="true"/>
     	<meta-data android:name="com.sec.android.multiwindow.STYLE" android:value="fixedRatio"/>
     	<meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
-        
+        <meta-data
+               android:name="android.app.default_searchable"
+               android:value="com.trupt.myfiles.ui.act.MainActivity" >
+        </meta-data>
         <activity
-            android:name="com.trupt.myfiles.ui.act.MainActivity" android:configChanges="keyboardHidden|orientation|screenSize">
+            android:name="com.trupt.myfiles.ui.act.MainActivity" 
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTop">
+            <meta-data android:name="android.app.searchable"
+            	android:resource="@xml/searchable">
+        	</meta-data>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,8 +42,9 @@
             <intent-filter> 
       			<action android:name="com.sec.android.airview.HOVER" />
 			</intent-filter>
-        </activity>
-        <activity android:name="com.trupt.myfiles.ui.act.FileBrowseActivity">
+			<intent-filter>
+        		<action android:name="android.intent.action.SEARCH" />
+    		</intent-filter>
         </activity>
     </application>
 

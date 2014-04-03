@@ -1,9 +1,8 @@
 package com.trupt.myfiles.ui;
-
+ 
 import java.io.File;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -12,6 +11,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -105,6 +105,25 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 				reduceScrollView();
 			}
 			currentFilePath = newFilePath;
+		} else if(!currentFilePath.equals(newFilePath)){
+			for (int i = 0; i < newViews.length; i++) {
+				removeViewFromLayout(i);
+			}
+			reduceScrollView();
+			for (int i = 0; i < newViews.length; i++) {
+				String fileName = newViews[i];
+				if (fileName.equals("")) {
+					fileName = File.separator;
+				}
+				String filepath = newFilePath.substring(0, newFilePath.indexOf(fileName)
+						+ fileName.length());
+				boolean isClickEnable = true;
+				if(originViews.length - 1 > i) {
+					isClickEnable = false;
+				}
+				addViewToLayout(fileName, filepath, newFilePath, isClickEnable);
+			}
+			expandScrollView();
 		}
 	}
 
@@ -141,14 +160,14 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 				LayoutParams.MATCH_PARENT));
 		liLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-		LinearLayout.LayoutParams paramsSeparator = new LinearLayout.LayoutParams(
-				1, android.widget.LinearLayout.LayoutParams.MATCH_PARENT);
-		paramsSeparator.setMargins(0, 8, 0, 8);
-		View viewSeparator = new View(getContext());
-		viewSeparator.setBackgroundColor(getResources().getColor(
-				R.color.filepath_seperator_view));
+		float density = getContext().getResources().getDisplayMetrics().density;
+		LinearLayout.LayoutParams paramsSeparator = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
+				(int)(20 * density));
+		paramsSeparator.gravity = Gravity.CENTER;
+		ImageView viewSeparator = new ImageView(getContext());
+		viewSeparator.setImageResource(R.drawable.ic_path_separator);
 		viewSeparator.setLayoutParams(paramsSeparator);
-		viewSeparator.setAlpha(100);
+		//viewSeparator.setAlpha(100);
 		liLayout.addView(viewSeparator);
 
 		final TextView textView = new TextView(getContext());
@@ -162,7 +181,7 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 		textView.setTag(filePath);
 		textView.setText(fName);
 		textView.setGravity(Gravity.CENTER);
-		textView.setPadding(25, 0, 25, 0);
+		textView.setPadding((int)(8 * density), 0, (int)(8 * density), 0);
 
 		textView.setOnClickListener(new OnClickListener() {
 			@Override

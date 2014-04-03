@@ -1,35 +1,31 @@
 package com.trupt.myfiles.ui.act;
 
-import java.text.ChoiceFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +39,7 @@ import com.trupt.myfiles.model.enums.FragmentNameEnum;
 import com.trupt.myfiles.ui.frag.BaseFragment;
 import com.trupt.myfiles.ui.frag.FileFragment;
 import com.trupt.myfiles.ui.frag.HomeFragment;
+import com.trupt.myfiles.ui.frag.SearchFragment;
 import com.trupt.myfiles.ui.frag.lib.DocumentsFragment;
 import com.trupt.myfiles.ui.frag.lib.FavouriteFilesFragment;
 import com.trupt.myfiles.ui.frag.lib.MusicFragment;
@@ -72,7 +69,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	private MenuExpandableListAdapter adapterMenuExpandableListAdapter;
 	
 	private boolean isDrawerOpen;
-	
+		
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,15 +110,27 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.op_main_activity, menu);
+		
+		// Associate searchable configuration with the SearchView
+	    SearchManager searchManager =
+	           (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+	    SearchView searchView =
+	            (SearchView) menu.findItem(R.id.oiSearch).getActionView();
+	    searchView.setSearchableInfo(
+	            searchManager.getSearchableInfo(getComponentName()));
+		
 		return super.onCreateOptionsMenu(menu);
 	}
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
-		if(isDrawerOpen)
+		if(isDrawerOpen) {
 			return false;
-		else
-			return super.onPrepareOptionsMenu(menu);
+		}
+		else {
+			menu.findItem(R.id.oiSearch).collapseActionView();
+			return true;
+		}
 	}
 
 	@Override
@@ -129,6 +138,19 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		if (menuDrawableToggle.onOptionsItemSelected(item)) {
 			return true;
 		} else {
+			switch (item.getItemId()) {
+			case R.id.oiSearch:
+				BaseFragment fragment = new SearchFragment();
+				if(fragment != null) {
+					fragment.setHasOptionsMenu(true);
+					fragment.setFileBrowseListener(this);
+					updateFragmentListAndDrawer(fragment, 0);
+				}
+				break;
+
+			default:
+				break;
+			}
 			return super.onOptionsItemSelected(item);
 		}
 	}
@@ -176,6 +198,18 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+	
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+		MyFragSingle frag = MyFragSingle.getInstance();
+		for(BaseFragment fragment : frag.getListFragments()) {
+			if(fragment instanceof SearchFragment) {
+				((SearchFragment)fragment).handleIntent(intent);
+			}
+		}
 	}
 		
 	@Override

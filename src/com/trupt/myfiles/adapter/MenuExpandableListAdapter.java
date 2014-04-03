@@ -3,16 +3,15 @@ package com.trupt.myfiles.adapter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-import com.trupt.myfiles.R;
-
 import android.content.Context;
 import android.database.DataSetObserver;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
 import android.widget.TextView;
+
+import com.trupt.myfiles.R;
 
 public class MenuExpandableListAdapter implements ExpandableListAdapter {
 	
