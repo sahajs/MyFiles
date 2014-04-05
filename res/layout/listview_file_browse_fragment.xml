@@ -9,8 +9,8 @@
         android:id="@+id/ivFileTypeImage"
         android:layout_width="55dp"
         android:layout_height="55dp"
-        android:background="#ECECEC"
-        android:padding="3dp"
+        android:background="#FFFFFF"
+        android:padding="1dp"
         android:scaleType="fitXY"
         />
 
