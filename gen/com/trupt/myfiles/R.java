@@ -181,6 +181,8 @@ public final class R {
  the theme applied to the application or activity 
          */
         public static final int AppBaseTheme=0x7f090000;
+        /**  <item name="android:actionModeStyle">@style/MyFilesActionMode</item> 
+         */
         public static final int AppTheme=0x7f090001;
         public static final int MyFilesActionBar=0x7f090002;
     }

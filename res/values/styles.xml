@@ -18,11 +18,10 @@
         <item name="android:backgroundSplit">@color/action_bar_background</item>
         
     </style>
-    <style name="MyFilesActionMode" parent="android:style/Widget.Holo.Light.ActionMode">
+    <!-- <style name="MyFilesActionMode" parent="android:style/Widget.Holo.Light.ActionMode">
         <item name="android:background">@drawable/action_mode_background</item>
-		<item name="android:backgroundSplit">@drawable/action_mode_background_split</item>
-		
-    </style>
+		<item name="android:backgroundSplit">@drawable/action_mode_background_split</item> 
+    </style>-->
     <!--
 	<style name="MyDropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
     	<item name="android:listSelector">@drawable/selector_list</item>
