@@ -77,6 +77,10 @@ public class FileUtil {
 			case PNG:
 			case GIF:
 				imageDrawable = getImageBitmapThumbnail(file, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				if(imageDrawable == null) {
+					Resources resources = MyFilesApplication.getAppContext().getResources();
+					imageDrawable = BitmapFactory.decodeResource(resources, R.drawable.ic_file_image);
+				}
 				break;
 			case WEBM:
 			case MKV:
@@ -86,6 +90,10 @@ public class FileUtil {
 			case MP4:
 			case GP:
 				imageDrawable = getVideoBitmapThumbnail(file, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+				if(imageDrawable == null) {
+					Resources resources = MyFilesApplication.getAppContext().getResources();
+					imageDrawable = BitmapFactory.decodeResource(resources, R.drawable.ic_file_video);
+				}
 				break;
 		}
 		return imageDrawable;
