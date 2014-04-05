@@ -149,26 +149,33 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 	}
 
 	private void addViewToLayout(String fName, String filePath, String newFilePath, boolean isClickEnable) {
-		View view = getFilePathView(fName, filePath, newFilePath, isClickEnable);
+		View view = null;
+		if(linearLayout.getChildCount() != 0) { 
+			view = getFilePathView(fName, filePath, newFilePath, isClickEnable, false);
+		} else {
+			view = getFilePathView(fName, filePath, newFilePath, isClickEnable, true);
+		}
 		linearLayout.addView(view);
 	}
 
 	//TODO: create adapter to get viewes
-	private View getFilePathView(String fName, String filePath, String newFilePath, boolean isClickEnable) {
+	private View getFilePathView(String fName, String filePath, String newFilePath, boolean isClickEnable, boolean isFirstView) {
 		final LinearLayout liLayout = new LinearLayout(getContext());
 		liLayout.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.MATCH_PARENT));
 		liLayout.setOrientation(LinearLayout.HORIZONTAL);
 
 		float density = getContext().getResources().getDisplayMetrics().density;
-		LinearLayout.LayoutParams paramsSeparator = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
-				(int)(20 * density));
-		paramsSeparator.gravity = Gravity.CENTER;
-		ImageView viewSeparator = new ImageView(getContext());
-		viewSeparator.setImageResource(R.drawable.ic_path_separator);
-		viewSeparator.setLayoutParams(paramsSeparator);
-		//viewSeparator.setAlpha(100);
-		liLayout.addView(viewSeparator);
+		if(!isFirstView) {
+			LinearLayout.LayoutParams paramsSeparator = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 
+					(int)(20 * density));
+			paramsSeparator.gravity = Gravity.CENTER;
+			ImageView viewSeparator = new ImageView(getContext());
+			viewSeparator.setImageResource(R.drawable.ic_path_separator);
+			viewSeparator.setLayoutParams(paramsSeparator);
+			//viewSeparator.setAlpha(100);
+			liLayout.addView(viewSeparator);
+		}
 
 		final TextView textView = new TextView(getContext());
 		textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
