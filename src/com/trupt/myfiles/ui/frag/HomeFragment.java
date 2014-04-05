@@ -128,7 +128,7 @@ public class HomeFragment extends BaseFragment implements
 	}
 	
 	protected void setUpTitle() {
-		currentFilePath = "My Files";
+		currentFilePath = "Home";
 		originFilePath = currentFilePath;
 	}
 
