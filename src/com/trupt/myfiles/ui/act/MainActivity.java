@@ -17,6 +17,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -393,6 +394,22 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		launchHome();
 	}
 	
+	private void setupTitle() {
+		TextView textView = new TextView(this);
+		textView.setText("My Files");
+		textView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.MATCH_PARENT));
+		textView.setTextSize(16);
+		textView.setBackgroundResource(R.drawable.selector_file_path_button);
+		textView.setTextColor(getResources().getColor(
+				R.color.filepath_text_color));
+		textView.setGravity(Gravity.CENTER);
+		float density = getResources().getDisplayMetrics().density;
+		textView.setPadding((int)(8 * density), 0, (int)(8 * density), 0);
+		
+		getActionBar().setCustomView(textView);
+	}
+	
 	private void populateMenuItems() {
 		listMenuHeaders.add("HOME");
 		mapMenuItems.put(listMenuHeaders.get(0), new ArrayList<String>(0));
@@ -457,7 +474,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		@Override
 		public void onDrawerOpened(View drawerView) {
 			super.onDrawerOpened(drawerView);
-			getActionBar().setTitle("My Files");
+			setupTitle();
 			isDrawerOpen = true;
 			invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			/*MyFragSingle fragments = MyFragSingle.getInstance();
