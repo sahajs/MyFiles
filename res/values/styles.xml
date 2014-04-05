@@ -13,8 +13,8 @@
     </style>
     
     <style name="MyFilesActionBar" parent="android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/action_bar</item>
-        <item name="android:backgroundSplit">@color/action_bar</item>
+        <item name="android:background">@color/action_bar_background</item>
+        <item name="android:backgroundSplit">@color/action_bar_background</item>
     </style>
     <!--
 	<style name="MyDropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">

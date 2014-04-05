@@ -9,7 +9,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@drawable/pressed_holo_light" />
+        android:background="@color/pressed" />
 
     <TextView
         android:id="@+id/tvMenuName"

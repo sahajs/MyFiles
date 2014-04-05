@@ -229,13 +229,9 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		ImageView ivFileTypeImage = (ImageView) view.findViewById(R.id.ivFileTypeImage);
 		if (!alSelectedViewIndex.contains(index)) {
 			alSelectedViewIndex.add(index);
-			view.setBackgroundResource(R.drawable.longpressed_holo_light);
+			view.setBackgroundColor(activity.getResources().getColor(R.color.long_pressed));
 			ImageAnimation.flipToSelectedView(ivFileTypeImage);
 		} else {
-			//if (alSelectedViewIndex.size() == 1) {
-				
-			//	return;
-			//}
 			alSelectedViewIndex.remove(Integer.valueOf(index));
 			view.setBackgroundColor(Color.TRANSPARENT);
 			ImageAnimation.flipToOriginalView(ivFileTypeImage,

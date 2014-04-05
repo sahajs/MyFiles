@@ -17,17 +17,19 @@ public final class R {
     public static final class attr {
     }
     public static final class color {
-        public static final int action_bar=0x7f060002;
+        public static final int action_bar_background=0x7f060002;
         public static final int action_bar_text_color=0x7f060003;
         public static final int blue=0x7f060000;
-        public static final int colors=0x7f06000b;
+        public static final int colors=0x7f06000d;
         public static final int filepath_clicked_text_bg=0x7f060005;
         public static final int filepath_selected_view=0x7f060006;
         public static final int filepath_seperator_view=0x7f060007;
         public static final int filepath_text_color=0x7f060004;
+        public static final int long_pressed=0x7f06000c;
         public static final int menu_background=0x7f060008;
         public static final int menu_divider=0x7f06000a;
         public static final int menu_foreground=0x7f060009;
+        public static final int pressed=0x7f06000b;
         public static final int white=0x7f060001;
     }
     public static final class dimen {
@@ -92,12 +94,10 @@ public final class R {
         public static final int ic_path_separator=0x7f020030;
         public static final int ic_selected=0x7f020031;
         public static final int listview_divider=0x7f020032;
-        public static final int longpressed_holo_light=0x7f020033;
-        public static final int pressed_holo_light=0x7f020034;
-        public static final int round_corner=0x7f020035;
-        public static final int selector_file_path_button=0x7f020036;
-        public static final int selector_file_path_button_current=0x7f020037;
-        public static final int selector_list=0x7f020038;
+        public static final int round_corner=0x7f020033;
+        public static final int selector_file_path_button=0x7f020034;
+        public static final int selector_file_path_button_current=0x7f020035;
+        public static final int selector_list=0x7f020036;
     }
     public static final class id {
         public static final int ciCopy=0x7f0b0018;

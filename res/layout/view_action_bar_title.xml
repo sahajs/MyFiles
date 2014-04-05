@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="35dp"
     android:alpha="0.90"
-    android:background="@color/action_bar"
+    android:background="@color/action_bar_background"
     android:paddingRight="10dp" >
 
 </com.trupt.myfiles.ui.FilePathHorizontalScrollView>

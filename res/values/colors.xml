@@ -3,7 +3,7 @@
     <color name="blue">#BB176DED</color>
     <color name="white">#FFFFFF</color>
     
-    <color name="action_bar">@color/blue</color>
+    <color name="action_bar_background">@color/blue</color>
     <color name="action_bar_text_color">#ffffff</color>
     <color name="filepath_text_color">#ffffff</color>
     <color name="filepath_clicked_text_bg">#ffffff</color>
@@ -12,5 +12,8 @@
     <color name="menu_background">#efefef</color>
     <color name="menu_foreground">#444444</color>
     <color name="menu_divider">#CCCCCC</color>
+    
+    <color name="pressed">#AA176DED</color>
+    <color name="long_pressed">#BB176DED</color>
     
 </resources>
