@@ -12,20 +12,20 @@ import java.util.LinkedHashSet;
 
 import com.trupt.myfiles.app.MyFilesApplication;
 
-public class SearchCache {
+public class SearchCacheManager {
 	
 	private static final String FILE_NAME = "SearchCache";
 
-	private static SearchCache searchCache;
+	private static SearchCacheManager searchCache;
 	private HashMap<String, LinkedHashSet<File>> mapSearchFiles;
 	
-	private SearchCache() {
+	private SearchCacheManager() {
 		mapSearchFiles = loadSearchCache();
 	}
 	
-	public static SearchCache getInstance() {
+	public static SearchCacheManager getInstance() {
 		if(searchCache == null) {
-			searchCache = new SearchCache();
+			searchCache = new SearchCacheManager();
 		}
 		return searchCache;
 	}

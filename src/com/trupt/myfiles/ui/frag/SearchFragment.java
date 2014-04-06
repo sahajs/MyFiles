@@ -28,7 +28,7 @@ import android.widget.Toast;
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.adapter.SearchFileListAdapter;
 import com.trupt.myfiles.model.FileSortType;
-import com.trupt.myfiles.model.SearchCache;
+import com.trupt.myfiles.model.SearchCacheManager;
 import com.trupt.myfiles.ui.OnFilePathHSVClickListener;
 import com.trupt.myfiles.ui.view.LoadingView;
 import com.trupt.myfiles.util.FileUtil;
@@ -216,7 +216,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			}
 			searchThread = new SearchThread();
 			searchThread.start();
-			SearchCache searchCache = SearchCache.getInstance();
+			SearchCacheManager searchCache = SearchCacheManager.getInstance();
 			LinkedHashSet<File> searchFiles = searchCache.getSearchCache(query);
 			if(searchFiles != null && !searchFiles.isEmpty()) {
 				alFileList.addAll(searchFiles);
@@ -345,7 +345,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 					loadingView.stopAnimation();
 				}
 				if(!setSearchResults.isEmpty()) {
-					SearchCache searchCache = SearchCache.getInstance();
+					SearchCacheManager searchCache = SearchCacheManager.getInstance();
 					LinkedHashSet<File> hashSet = new LinkedHashSet<File>(setSearchResults);
 					boolean isChange = searchCache.updateSearchCache(query, hashSet);
 					if(isChange) {
