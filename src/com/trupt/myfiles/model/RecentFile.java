@@ -1,8 +1,9 @@
 package com.trupt.myfiles.model;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class RecentFile {
+public class RecentFile implements Serializable {
 
 	private File file;
 	private long time;

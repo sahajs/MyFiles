@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.text.format.Formatter;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -23,8 +24,10 @@ import android.widget.TextView;
 
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.core.Global;
+import com.trupt.myfiles.model.FavouriteFileManager;
 import com.trupt.myfiles.model.HomeItems;
 import com.trupt.myfiles.model.NumberNSize;
+import com.trupt.myfiles.model.RecentFileManager;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
 import com.trupt.myfiles.ui.FilePathHorizontalScrollView;
 import com.trupt.myfiles.util.FileUtil;
@@ -236,11 +239,15 @@ public class HomeFragment extends BaseFragment implements
 			final HomeItems item = listItems.get(position);
 			imageViewImage.setImageResource(item.getImageResource());
 			textViewTitle.setText(item.getTitle());
-			if(item.getNoOfFiles() > 0) {
-				textViewNumFiles.setText(item.getNoOfFiles()+" Files");
+			if(item.getNoOfFiles() != 0) {
+				String str = " Files";
+				if(item.getNoOfFiles() == 1) {
+					str = " File";
+				}
+				textViewNumFiles.setText(item.getNoOfFiles() + str);
 			}
 			if(item.getSize() > 0) {
-				textViewSize.setText(FileUtil.formatSize(item.getSize()));
+				textViewSize.setText(Formatter.formatFileSize(activity, item.getSize()));
 			}
 			return view;
 		}
@@ -280,6 +287,15 @@ public class HomeFragment extends BaseFragment implements
 						numberNSize = FileUtil.getNumberNSize(uri);
 					}
 					break;
+					case RecentFilesFragment: {
+						numberNSize = RecentFileManager.getInstance().getNumberNSize();
+					}
+					break;
+					case FavouriteFilesFragment: {
+						numberNSize = FavouriteFileManager.getInstance().getNumberNSize();
+					}
+					break;
+					
 				}
 				if(numberNSize != null) {
 					item.setSize(numberNSize.getSize());
