@@ -1,7 +1,7 @@
 package com.trupt.myfiles.ui.frag;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.adapter.SearchFileListAdapter;
 import com.trupt.myfiles.model.FileSortType;
+import com.trupt.myfiles.model.SearchCache;
 import com.trupt.myfiles.ui.OnFilePathHSVClickListener;
 import com.trupt.myfiles.ui.view.LoadingView;
 import com.trupt.myfiles.util.FileUtil;
@@ -38,7 +39,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	private SearchHandler searchHandler;
 	private String query;
 	private boolean isCaseSensitive;
-	private ArrayList<File> listSearchResult;
+	private LinkedHashSet<File> setSearchResults;
 	private String effectivePath = "";
 	//flag used to collapse and expand search action provider
 	private boolean isSearchViewExpand;
@@ -62,8 +63,8 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		LinearLayout loadView = (LinearLayout) view.findViewById(R.id.viewLoading);
 		loadView.addView(getLoadingView());
 		searchHandler = new SearchHandler();
-		if(listSearchResult == null) {
-			listSearchResult = new ArrayList<File>();
+		if(setSearchResults == null) {
+			setSearchResults = new LinkedHashSet<File>();
 		}
 	}
 	
@@ -171,7 +172,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		if(currentFilePath != null) {
 			if(currentFilePath.startsWith("Search")) {
 				alFileList.clear();
-				alFileList.addAll(listSearchResult);
+				alFileList.addAll(setSearchResults);
 				this.setQueryStringToAdapter(query);
 			} else {
 				alFileList = FileUtil.getFilesList(alFileList, currentFilePath, true, FileSortType.NAME_ASC);
@@ -215,6 +216,12 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			}
 			searchThread = new SearchThread();
 			searchThread.start();
+			SearchCache searchCache = SearchCache.getInstance();
+			LinkedHashSet<File> searchFiles = searchCache.getSearchCache(query);
+			if(searchFiles != null && !searchFiles.isEmpty()) {
+				alFileList.addAll(searchFiles);
+				fileListAdapter.notifyDataSetChanged();
+			}
 		}
 	}
 		
@@ -248,7 +255,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		isSearchViewExpand = false;
 		activity.invalidateOptionsMenu();
 		alFileList.clear();
-		listSearchResult.clear();
+		setSearchResults.clear();
 		setUpSearchTitle();
 		textViewEmptyDirectory.setVisibility(View.INVISIBLE);
 		populateFilePathView();
@@ -308,7 +315,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			long startTime = System.currentTimeMillis();
 			Log.e("SEARCH", "search started");
 			File file = Environment.getExternalStorageDirectory();
-			listSearchResult.clear();
+			setSearchResults.clear();
 			startSearch(file);
 			Log.e("SEARCH", "search finish");
 			long endTime = System.currentTimeMillis();
@@ -326,9 +333,9 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			if(msg.obj != null) {
 				if(msg.obj instanceof File) {
 					File file = (File) msg.obj;
-					alFileList.add(file);
-					listSearchResult.add(file);
-					int size = alFileList.size();
+					//alFileList.add(file);
+					setSearchResults.add(file);
+					//int size = alFileList.size();
 					//if(listViewFileList.getFirstVisiblePosition() + listViewFileList.getChildCount() <= size) {
 					//	fileListAdapter.notifyDataSetChanged();
 					//}
@@ -337,13 +344,18 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 				if(loadingView != null) {
 					loadingView.stopAnimation();
 				}
-				fileListAdapter.notifyDataSetChanged();
-				Toast.makeText(activity, "Search Completed.", Toast.LENGTH_LONG).show();
-				if (alFileList.size() == 0) {
-					textViewEmptyDirectory.setVisibility(View.VISIBLE);
+				if(!setSearchResults.isEmpty()) {
+					SearchCache searchCache = SearchCache.getInstance();
+					LinkedHashSet<File> hashSet = new LinkedHashSet<File>(setSearchResults);
+					boolean isChange = searchCache.updateSearchCache(query, hashSet);
+					if(isChange) {
+						populateFileList();
+					}
+					hashSet = null;
 				} else {
-					textViewEmptyDirectory.setVisibility(View.INVISIBLE);
+					populateFileList();
 				}
+				Toast.makeText(activity, "Search Completed.", Toast.LENGTH_LONG).show();
 			}
 		}
 	}
