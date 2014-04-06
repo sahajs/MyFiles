@@ -1,0 +1,51 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/white">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <LinearLayout 
+            android:id="@+id/viewLoading"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:orientation="horizontal"/>
+        
+        <TextView
+            android:id="@+id/textViewEmptyDirectory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:text="@string/no_files"
+            />
+
+        <ListView
+            android:id="@+id/listViewFileBrowse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:dividerHeight="1dp"
+            android:divider="#D3D3D3"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="true"
+            android:hapticFeedbackEnabled="true"
+            android:listSelector="@drawable/selector_list"/>
+        <LinearLayout 
+            android:id="@+id/linearLayoutDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/details_background"
+            android:orientation="vertical"
+            >
+            
+        </LinearLayout>
+        
+    </FrameLayout>
+    
+
+</LinearLayout>

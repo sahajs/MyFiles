@@ -13,44 +13,62 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.trupt.myfiles.R;
+import com.trupt.myfiles.adapter.SearchFileListAdapter;
 import com.trupt.myfiles.model.FileSortType;
 import com.trupt.myfiles.ui.OnFilePathHSVClickListener;
+import com.trupt.myfiles.ui.view.LoadingView;
 import com.trupt.myfiles.util.FileUtil;
 
 public class SearchFragment extends FileFragment implements OnFilePathHSVClickListener {
 		 
 	private SearchThread searchThread;
 	private SearchHandler searchHandler;
-	private TimeHandler timeHandler;
 	private String query;
 	private boolean isCaseSensitive;
 	private ArrayList<File> listSearchResult;
 	private String effectivePath = "";
+	//flag used to collapse and expand search action provider
 	private boolean isSearchViewExpand;
+	private LoadingView loadingView;
 	
-	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_search, container,
+				false);
+		setRetainInstance(true);
+		initView(view);
+		return view;
+	}
+		
 	@Override
 	protected void initView(View view) {
 		super.initView(view);
-		timeHandler = new TimeHandler();
+		fileListAdapter = new SearchFileListAdapter(activity, alFileList, isSelectEnable, alSelectedViewIndex);
+		listViewFileList.setAdapter(fileListAdapter);
+		LinearLayout loadView = (LinearLayout) view.findViewById(R.id.viewLoading);
+		loadView.addView(getLoadingView());
 		searchHandler = new SearchHandler();
 		if(listSearchResult == null) {
 			listSearchResult = new ArrayList<File>();
 		}
-		
 	}
 	
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
 		super.onPrepareOptionsMenu(menu);
 		if(isSearchViewExpand) {
 			menu.findItem(R.id.oiSearch).expandActionView();
@@ -69,6 +87,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	@Override
 	public void onItemClick(AdapterView<?> aView, View view, int index,
 			long arg3) {
+		this.setQueryStringToAdapter();
 		Vibrator vibrator = (Vibrator) SearchFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
@@ -149,6 +168,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			if(currentFilePath.equals("Search \"" + query + "\"")) {
 				alFileList.clear();
 				alFileList.addAll(listSearchResult);
+				this.setQueryStringToAdapter();
 			} else {
 				alFileList = FileUtil.getFilesList(alFileList, currentFilePath, true, FileSortType.NAME_ASC);
 			}
@@ -172,6 +192,9 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		if(loadingView != null) {
+			loadingView.stopAnimation();
+		}
 		stopPreviousSearch();
 	}
 	
@@ -183,82 +206,14 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 			query = intent.getStringExtra(SearchManager.QUERY);
 			Log.e("QUERY", query);
 			resetSearch();
+			if(loadingView != null) {
+				loadingView.startAnimation();
+			}
 			searchThread = new SearchThread();
 			searchThread.start();
 		}
 	}
-	
-	private class SearchThread extends Thread {
-		@Override
-		public void run() {
-			long startTime = System.currentTimeMillis();
-			Log.e("SEARCH", "search started");
-			File file = Environment.getExternalStorageDirectory();
-			listSearchResult.clear();
-			startSearch(file);
-			Log.e("SEARCH", "search finish");
-			long endTime = System.currentTimeMillis();
-			Log.e("SEARCH", "Time taken: " + (endTime - startTime)/1000 + " sec.");
-			
-			Message message = new Message();
-			Bundle bundle = new Bundle();
-			message.setData(bundle);
-			timeHandler.sendEmptyMessage(0);
-		}
-	}
-	
-	private class SearchHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			File file = new File(msg.getData().getString("FILE_NAME"));
-			alFileList.add(file);
-			listSearchResult.add(file);
-			int size = alFileList.size();
-			if(listViewFileList.getFirstVisiblePosition() + listViewFileList.getChildCount() <= size) {
-				fileListAdapter.notifyDataSetChanged();
-			}
-		}
-	}
-	
-	private class TimeHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			Toast.makeText(activity, "Search Completed.", Toast.LENGTH_LONG).show();
-			if (alFileList.size() == 0) {
-				textViewEmptyDirectory.setVisibility(View.VISIBLE);
-			} else {
-				textViewEmptyDirectory.setVisibility(View.INVISIBLE);
-			}
-		}
-	}
-	
-	private void startSearch(File file) {
-		//Log.e("FILE NAME", file.getName());
-		String fileName = file.getName();
-		String searchQuery = query;
-		if(isCaseSensitive == false) {
-			fileName = file.getName().toLowerCase();
-			searchQuery = query.toLowerCase();
-		}
-		if(fileName.contains(searchQuery)) {
-			Message message = new Message();
-			Bundle bundle = new Bundle();
-			bundle.putString("FILE_NAME", file.getAbsolutePath());
-			message.setData(bundle);
-			searchHandler.sendMessage(message);
-		}
-		if(file.isDirectory()) {
-			File[] files = file.listFiles();
-			if(files != null) {
-				for(File fl : files) {
-					startSearch(fl);
-				}
-			}
-		}
-	}
-	
+		
 	@Override
 	public void onClick(String filePath) {
 		if(!filePath.equals(originFilePath)) {
@@ -291,7 +246,9 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		alFileList.clear();
 		listSearchResult.clear();
 		setUpSearchTitle();
+		textViewEmptyDirectory.setVisibility(View.INVISIBLE);
 		populateFilePathView();
+		this.setQueryStringToAdapter();
 		fileListAdapter.notifyDataSetChanged();
 	}
 	
@@ -300,6 +257,96 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		if(query != null) {
 			currentFilePath = "Search \"" + query + "\"";
 			originFilePath = currentFilePath;
+		}
+	}
+	
+	private void startSearch(final File file) {
+		//Log.e("FILE NAME", file.getName());
+		String fileName = file.getName();
+		String searchQuery = query;
+		if(isCaseSensitive == false) {
+			fileName = file.getName().toLowerCase();
+			searchQuery = query.toLowerCase();
+		}
+		if(fileName.contains(searchQuery)) {
+			Message message = new Message();
+			//Bundle bundle = new Bundle();
+			//bundle.putString("FILE_NAME", file.getAbsolutePath());
+			//message.setData(bundle);
+			message.obj = file;
+			searchHandler.sendMessage(message);
+		}
+		if(file.isDirectory()) {
+			File[] files = file.listFiles();
+			if(files != null) {
+				for(File fl : files) {
+					startSearch(fl);
+				}
+			}
+		}
+	}
+	
+
+	protected View getLoadingView() {
+		if(loadingView == null) {
+			loadingView = new LoadingView(activity);
+			FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+			layoutParams.gravity = Gravity.BOTTOM;
+			loadingView.setLayoutParams(layoutParams);
+		}  
+		return loadingView;
+	}
+	
+	
+	private class SearchThread extends Thread {
+		@Override
+		public void run() {
+			long startTime = System.currentTimeMillis();
+			Log.e("SEARCH", "search started");
+			File file = Environment.getExternalStorageDirectory();
+			listSearchResult.clear();
+			startSearch(file);
+			Log.e("SEARCH", "search finish");
+			long endTime = System.currentTimeMillis();
+			Log.e("SEARCH", "Time taken: " + (endTime - startTime)/1000 + " sec.");
+			
+			searchHandler.sendEmptyMessage(0);
+		}
+	}
+	
+	
+	private class SearchHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			if(msg.obj != null) {
+				if(msg.obj instanceof File) {
+					File file = (File) msg.obj;
+					alFileList.add(file);
+					listSearchResult.add(file);
+					int size = alFileList.size();
+					//if(listViewFileList.getFirstVisiblePosition() + listViewFileList.getChildCount() <= size) {
+					//	fileListAdapter.notifyDataSetChanged();
+					//}
+				}
+			} else {
+				if(loadingView != null) {
+					loadingView.stopAnimation();
+				}
+				fileListAdapter.notifyDataSetChanged();
+				Toast.makeText(activity, "Search Completed.", Toast.LENGTH_LONG).show();
+				if (alFileList.size() == 0) {
+					textViewEmptyDirectory.setVisibility(View.VISIBLE);
+				} else {
+					textViewEmptyDirectory.setVisibility(View.INVISIBLE);
+				}
+			}
+		}
+	}
+	
+	private void setQueryStringToAdapter() {
+		if(fileListAdapter != null && fileListAdapter instanceof SearchFileListAdapter) {
+			((SearchFileListAdapter)fileListAdapter).setQueryString(query);
 		}
 	}
 }

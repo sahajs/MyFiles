@@ -8,11 +8,11 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Html;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.trupt.myfiles.R;
@@ -20,37 +20,15 @@ import com.trupt.myfiles.model.enums.ThumbnailTypeEnum;
 import com.trupt.myfiles.ui.view.ThumbnailImageView;
 import com.trupt.myfiles.util.FileUtil;
 
-public class FileListAdapter extends BaseAdapter {
+public class SearchFileListAdapter extends FileListAdapter {
 
-	protected Context context;
-	protected ArrayList<File> fileList;
-	protected boolean isSelectEnable;
-	protected ArrayList<Integer> listSelectedViewIndex;
+	private String queryString;
 	 
 	private View view; 
 	
-	public FileListAdapter(Context context, ArrayList<File> fileList,
+	public SearchFileListAdapter(Context context, ArrayList<File> fileList,
 			boolean isSelectEnable, ArrayList<Integer> listSelectedViewIndex) {
-		super();
-		this.context = context;
-		this.fileList = fileList;
-		this.isSelectEnable = isSelectEnable;
-		this.listSelectedViewIndex = listSelectedViewIndex;
-	}
-
-	@Override
-	public int getCount() {
-		return fileList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return fileList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return 0;
+		super(context, fileList, isSelectEnable, listSelectedViewIndex);
 	}
 
 	@Override
@@ -75,7 +53,19 @@ public class FileListAdapter extends BaseAdapter {
 		
 		final File file = fileList.get(position);
 
-		tvFileName.setText(file.getName());
+		if(queryString == null || queryString.equals("")) {
+			tvFileName.setText(file.getName());
+		} else {
+			String fileName = file.getName();
+			int indexOfQeryStr = fileName.toLowerCase(Locale.US).indexOf(queryString.toLowerCase(Locale.US));
+			String text = null;
+			if(indexOfQeryStr < fileName.length() - queryString.length()) {
+				text = fileName.substring(0, indexOfQeryStr) + "<font color=#cc0029>"+fileName.substring(indexOfQeryStr, indexOfQeryStr + queryString.length())+"</font>" + fileName.substring(indexOfQeryStr + queryString.length());
+			} else {
+				text = fileName.substring(0, indexOfQeryStr) + "<font color=#cc0029>"+fileName.substring(indexOfQeryStr, indexOfQeryStr + queryString.length())+"</font>";
+			}
+			tvFileName.setText(Html.fromHtml(text));
+		}
 	
 		if(file.isDirectory()) {
 			tvFileSize.setText("");
@@ -185,4 +175,7 @@ public class FileListAdapter extends BaseAdapter {
 		this.isSelectEnable = isSelectEnable;
 	}
 	
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
 }

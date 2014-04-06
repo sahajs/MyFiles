@@ -100,41 +100,42 @@ public final class R {
         public static final int selector_list=0x7f020036;
     }
     public static final class id {
-        public static final int ciCopy=0x7f0b0018;
-        public static final int ciCut=0x7f0b0017;
-        public static final int ciDelete=0x7f0b0016;
-        public static final int ciDetails=0x7f0b001b;
-        public static final int ciRename=0x7f0b0019;
-        public static final int ciSelectAll=0x7f0b001a;
-        public static final int ciShare=0x7f0b001c;
+        public static final int ciCopy=0x7f0b0019;
+        public static final int ciCut=0x7f0b0018;
+        public static final int ciDelete=0x7f0b0017;
+        public static final int ciDetails=0x7f0b001c;
+        public static final int ciRename=0x7f0b001a;
+        public static final int ciSelectAll=0x7f0b001b;
+        public static final int ciShare=0x7f0b001d;
         public static final int drawerLayoutMainMenu=0x7f0b0000;
         public static final int exListViewMainMenu=0x7f0b0003;
         public static final int gridViewHomeItems=0x7f0b0009;
-        public static final int horizontalScrollViewFilePath=0x7f0b0015;
-        public static final int ivFileTypeImage=0x7f0b000e;
-        public static final int ivItemImage=0x7f0b000a;
+        public static final int horizontalScrollViewFilePath=0x7f0b0016;
+        public static final int ivFileTypeImage=0x7f0b000f;
+        public static final int ivItemImage=0x7f0b000b;
         public static final int linearLayoutDetails=0x7f0b0008;
         public static final int linearLayoutSliderBottom=0x7f0b0002;
         public static final int listViewFileBrowse=0x7f0b0007;
-        public static final int oiExit=0x7f0b0023;
-        public static final int oiNew=0x7f0b001d;
-        public static final int oiPaste=0x7f0b0021;
-        public static final int oiSearch=0x7f0b0020;
-        public static final int oiSettings=0x7f0b0022;
-        public static final int osiFile=0x7f0b001e;
-        public static final int osiFolder=0x7f0b001f;
+        public static final int oiExit=0x7f0b0024;
+        public static final int oiNew=0x7f0b001e;
+        public static final int oiPaste=0x7f0b0022;
+        public static final int oiSearch=0x7f0b0021;
+        public static final int oiSettings=0x7f0b0023;
+        public static final int osiFile=0x7f0b001f;
+        public static final int osiFolder=0x7f0b0020;
         public static final int pager=0x7f0b0004;
         public static final int textViewEmptyDirectory=0x7f0b0006;
-        public static final int tvFileCreationTime=0x7f0b0010;
-        public static final int tvFileName=0x7f0b000f;
-        public static final int tvFilePath=0x7f0b0012;
-        public static final int tvFileSize=0x7f0b0011;
+        public static final int tvFileCreationTime=0x7f0b0011;
+        public static final int tvFileName=0x7f0b0010;
+        public static final int tvFilePath=0x7f0b0013;
+        public static final int tvFileSize=0x7f0b0012;
         public static final int tvMenuName=0x7f0b0005;
-        public static final int tvNoOfFiles=0x7f0b000c;
-        public static final int tvSize=0x7f0b000d;
-        public static final int tvTitle=0x7f0b000b;
-        public static final int vBottom=0x7f0b0014;
-        public static final int vRight=0x7f0b0013;
+        public static final int tvNoOfFiles=0x7f0b000d;
+        public static final int tvSize=0x7f0b000e;
+        public static final int tvTitle=0x7f0b000c;
+        public static final int vBottom=0x7f0b0015;
+        public static final int vRight=0x7f0b0014;
+        public static final int viewLoading=0x7f0b000a;
         public static final int viewPagerMain=0x7f0b0001;
     }
     public static final class layout {
@@ -146,10 +147,11 @@ public final class R {
         public static final int fragment_file_browse=0x7f030005;
         public static final int fragment_file_browse_storage=0x7f030006;
         public static final int fragment_home=0x7f030007;
-        public static final int gridview_home_items_fragment=0x7f030008;
-        public static final int listview_file_browse_fragment=0x7f030009;
-        public static final int textview_file_path=0x7f03000a;
-        public static final int view_action_bar_title=0x7f03000b;
+        public static final int fragment_search=0x7f030008;
+        public static final int gridview_home_items_fragment=0x7f030009;
+        public static final int listview_file_browse_fragment=0x7f03000a;
+        public static final int textview_file_path=0x7f03000b;
+        public static final int view_action_bar_title=0x7f03000c;
     }
     public static final class menu {
         public static final int co_file_browse_fragment=0x7f0a0000;
