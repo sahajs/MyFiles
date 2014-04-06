@@ -87,7 +87,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	@Override
 	public void onItemClick(AdapterView<?> aView, View view, int index,
 			long arg3) {
-		this.setQueryStringToAdapter();
+		this.setQueryStringToAdapter(null);
 		Vibrator vibrator = (Vibrator) SearchFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
@@ -155,6 +155,10 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	//use setUpSearchTitle instead.
 	@Override
 	protected void setUpTitle() {
+		if(currentFilePath == null) {
+			currentFilePath = "Search";
+			originFilePath = currentFilePath;
+		}
 	}
 
 	protected void setUpViews() {
@@ -165,10 +169,10 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 	protected void populateFileList() {
 		textViewEmptyDirectory.setVisibility(View.INVISIBLE);
 		if(currentFilePath != null) {
-			if(currentFilePath.equals("Search \"" + query + "\"")) {
+			if(currentFilePath.startsWith("Search")) {
 				alFileList.clear();
 				alFileList.addAll(listSearchResult);
-				this.setQueryStringToAdapter();
+				this.setQueryStringToAdapter(query);
 			} else {
 				alFileList = FileUtil.getFilesList(alFileList, currentFilePath, true, FileSortType.NAME_ASC);
 			}
@@ -185,7 +189,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 
 	protected void populateFilePathView() {
 		if(currentFilePath != null && originFilePath != null) {
-			horizontalScrollViewFilePath.displayView(currentFilePath.replace(effectivePath, ""), originFilePath);
+			horizontalScrollViewFilePath.displaySearchView(currentFilePath.replace(effectivePath, ""), originFilePath);
 		}
 	}
 	
@@ -205,7 +209,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			query = intent.getStringExtra(SearchManager.QUERY);
 			Log.e("QUERY", query);
-			resetSearch();
+			initSearch();
 			if(loadingView != null) {
 				loadingView.startAnimation();
 			}
@@ -239,7 +243,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		}
 	}
 	
-	private void resetSearch() {
+	private void initSearch() {
 		stopPreviousSearch();
 		isSearchViewExpand = false;
 		activity.invalidateOptionsMenu();
@@ -248,7 +252,7 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		setUpSearchTitle();
 		textViewEmptyDirectory.setVisibility(View.INVISIBLE);
 		populateFilePathView();
-		this.setQueryStringToAdapter();
+		this.setQueryStringToAdapter(query);
 		fileListAdapter.notifyDataSetChanged();
 	}
 	
@@ -344,9 +348,9 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		}
 	}
 	
-	private void setQueryStringToAdapter() {
+	private void setQueryStringToAdapter(String queryStr) {
 		if(fileListAdapter != null && fileListAdapter instanceof SearchFileListAdapter) {
-			((SearchFileListAdapter)fileListAdapter).setQueryString(query);
+			((SearchFileListAdapter)fileListAdapter).setQueryString(queryStr);
 		}
 	}
 }

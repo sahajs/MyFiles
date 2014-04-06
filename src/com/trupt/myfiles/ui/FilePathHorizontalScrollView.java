@@ -126,6 +126,93 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 			expandScrollView();
 		}
 	}
+	
+	//TODO: add better logic for this
+	public void displaySearchView(String newFilePath, String originFilePath) {
+		int newLength = 0;
+		int currentLength = 0;
+		String[] currentViews = null;
+		
+		if (currentFilePath != null) {
+			currentViews = currentFilePath.split(File.separator);
+			currentLength = currentViews.length;
+			if (currentViews.length == 0 && currentFilePath.equals(File.separator)) {
+				currentViews = new String[1];
+				currentViews[0] = File.separator;
+				currentLength = 1;
+			}
+		}
+		
+		String[] newViews = newFilePath.split(File.separator);
+		newLength = newViews.length;
+		if (newViews.length == 0 && newFilePath.equals(File.separator)) {
+			newViews = new String[1];
+			newViews[0] = File.separator;
+			newLength = 1;
+		}
+		
+		String[] originViews = originFilePath.split(File.separator);
+		if (originViews.length == 0 && originFilePath.equals(File.separator)) {
+			originViews = new String[1];
+			originViews[0] = File.separator;
+		}
+		
+		if(newFilePath.equals(originFilePath)) {
+			if(currentViews != null) {
+				linearLayout.removeAllViews();
+				reduceScrollView();
+			}
+			addViewToLayout(newFilePath, newFilePath, newFilePath, true);
+			expandScrollView();
+			currentFilePath = newFilePath;
+			return;
+		}	
+
+		int diff = newLength - currentLength;
+		if (diff != 0) {
+			if (diff > 0) {
+				for (int i = currentLength; i < newViews.length; i++) {
+					String fileName = newViews[i];
+					if (fileName.equals("")) {
+						fileName = File.separator;
+					}
+					String filepath = newFilePath.substring(0, newFilePath.indexOf(fileName)
+							+ fileName.length());
+					boolean isClickEnable = true;
+					if(originViews.length - 1 > i) {
+						isClickEnable = false;
+					}
+					addViewToLayout(fileName, filepath, newFilePath, isClickEnable);
+				}
+				expandScrollView();
+			} else {
+				for (int i = currentViews.length - 1; i >= newViews.length; i--) {
+					removeViewFromLayout(i);
+				}
+				reduceScrollView();
+			}
+			currentFilePath = newFilePath;
+		} else if(!currentFilePath.equals(newFilePath)){
+			for (int i = 0; i < newViews.length; i++) {
+				removeViewFromLayout(i);
+			}
+			reduceScrollView();
+			for (int i = 0; i < newViews.length; i++) {
+				String fileName = newViews[i];
+				if (fileName.equals("")) {
+					fileName = File.separator;
+				}
+				String filepath = newFilePath.substring(0, newFilePath.indexOf(fileName)
+						+ fileName.length());
+				boolean isClickEnable = true;
+				if(originViews.length - 1 > i) {
+					isClickEnable = false;
+				}
+				addViewToLayout(fileName, filepath, newFilePath, isClickEnable);
+			}
+			expandScrollView();
+		}
+	}
 
 	private void removeViewFromLayout(int index) {
 		final View view = linearLayout.getChildAt(index);
