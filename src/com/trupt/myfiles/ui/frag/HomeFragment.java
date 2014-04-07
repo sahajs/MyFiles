@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -75,8 +77,7 @@ public class HomeFragment extends BaseFragment implements
 				
 		restoreSavedInstanceState(savedInstanceState);
 		if(isFirstTime == true) {
-			activity.getActionBar().setCustomView(horizontalScrollViewFilePath);
-			activity.getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+			updateActionBarItems();
 		}
 		
 		setUpTitle();
@@ -187,9 +188,11 @@ public class HomeFragment extends BaseFragment implements
 	
 	@Override
 	public void updateActionBarItems() {
-		//populateFilePathView();
 		if(horizontalScrollViewFilePath != null) {
+			Animation animation = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+			horizontalScrollViewFilePath.setAnimation(animation);
 			activity.getActionBar().setCustomView(horizontalScrollViewFilePath);
+			activity.getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		}
 	}
 	
