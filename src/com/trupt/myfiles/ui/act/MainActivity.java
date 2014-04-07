@@ -443,11 +443,16 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		for(int i = 0; i < MyFragSingle.getInstance().getListFragments().size(); i++) {
 			TextView view = new TextView(this);
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LayoutParams.MATCH_PARENT, 1.0f);
+			float density = (int)getResources().getDisplayMetrics().density;
+			int dp2 = (int)(2 * density);
+			int dp1 = (int)(1 * density);
+			
+			params.setMargins(dp2, dp1, dp2, dp1);
 			view.setLayoutParams(params);
 			if(MyFragSingle.getInstance().getCurrentFragmentIndex() != i) {
-				view.setBackgroundColor(Color.TRANSPARENT);
+				view.setBackgroundColor(Color.WHITE);
 			} else {
-				view.setBackgroundColor(getResources().getColor(R.color.blue));
+				view.setBackgroundColor(Color.TRANSPARENT);
 			}
 			linearLayoutMainBottom.addView(view);
 		}

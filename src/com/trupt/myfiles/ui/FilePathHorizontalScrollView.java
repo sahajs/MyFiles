@@ -28,6 +28,9 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 		super(context);
 		LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		this.setLayoutParams(layoutParams);
+		float density = (int)getResources().getDisplayMetrics().density;
+		int dp3 = (int)(3 * density);
+		this.setPadding(0, 0, dp3, dp3);
 		init();
 	}
 
@@ -41,11 +44,12 @@ public class FilePathHorizontalScrollView extends HorizontalScrollView {
 		init();
 	}
 	
-	private void init() {
+	private void init() {	
 		linearLayout = new LinearLayout(getContext());
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		linearLayout.setLayoutParams(params);
+		linearLayout.setBackgroundResource(R.drawable.border);
 		this.addView(linearLayout);		
 	}
 
