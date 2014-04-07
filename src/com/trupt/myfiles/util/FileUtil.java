@@ -182,9 +182,10 @@ public class FileUtil {
 		Bitmap image = null;
 		try {
 		String[] projection = new String[]{ MediaStore.Images.Media._ID };
-		String whereArgs = new String( MediaStore.Images.Media.DATA + "='" + file.getAbsolutePath() + "'" );
+		String whereArgs = new String( MediaStore.Images.Media.DATA + "=?" );
+		String[] selectionArgs = { file.getAbsolutePath() };
 		
-		Cursor cur = MediaStore.Images.Media.query(MyFilesApplication.getAppContext().getContentResolver(), uri, projection, whereArgs, MediaStore.Images.Media.TITLE);
+		Cursor cur = MediaStore.Images.Media.query(MyFilesApplication.getAppContext().getContentResolver(), uri, projection, whereArgs, selectionArgs, MediaStore.Images.Media.TITLE);
 		if (cur.moveToFirst()) {
 			int idCol = cur.getColumnIndex(MediaStore.Images.Media._ID);
 	        long id = cur.getLong(idCol);
@@ -198,24 +199,25 @@ public class FileUtil {
 	}
 	
 	//TODO: move these db call to database util
-		public static Bitmap getVideoBitmapThumbnail(File file, Uri uri) {
-			Bitmap image = null;
-			try {
-				String[] projection = new String[]{ MediaStore.Video.Media._ID };
-				String whereArgs = new String( MediaStore.Video.Media.DATA + "='" + file.getAbsolutePath() + "'" );
-				
-				Cursor cur = MediaStore.Images.Media.query(MyFilesApplication.getAppContext().getContentResolver(), uri, projection, whereArgs, MediaStore.Images.Media.TITLE);
-				if (cur.moveToFirst()) {
-					int idCol = cur.getColumnIndex(MediaStore.Video.Media._ID);
-			        long id = cur.getLong(idCol);
-			        image = MediaStore.Video.Thumbnails.getThumbnail(MyFilesApplication.getAppContext().getContentResolver(), 
-						id, MediaStore.Video.Thumbnails.MICRO_KIND, null);
-				}
-				cur.close();
-			} catch(SQLiteException exception) {
+	public static Bitmap getVideoBitmapThumbnail(File file, Uri uri) {
+		Bitmap image = null;
+		try {
+			String[] projection = new String[]{ MediaStore.Video.Media._ID };
+			String whereArgs = new String( MediaStore.Images.Media.DATA + "=?" );
+			String[] selectionArgs = { file.getAbsolutePath() };
+			
+			Cursor cur = MediaStore.Images.Media.query(MyFilesApplication.getAppContext().getContentResolver(), uri, projection, whereArgs, selectionArgs, MediaStore.Images.Media.TITLE);
+			if (cur.moveToFirst()) {
+				int idCol = cur.getColumnIndex(MediaStore.Video.Media._ID);
+		        long id = cur.getLong(idCol);
+		        image = MediaStore.Video.Thumbnails.getThumbnail(MyFilesApplication.getAppContext().getContentResolver(), 
+					id, MediaStore.Video.Thumbnails.MICRO_KIND, null);
 			}
-			return image;
+			cur.close();
+		} catch(SQLiteException exception) {
 		}
+		return image;
+	}
 	
 	public static NumberNSize getNumberNSize(Uri uri) {
 		String[] projection = new String[]{MediaStore.Images.Media.SIZE};
