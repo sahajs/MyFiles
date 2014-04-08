@@ -309,7 +309,7 @@ public class FileUtil {
 		return sizeString;
 	}*/
 	
-	public static String formatSize(long size) {
+	public static String formatSize(double size) {
 		String retVal = "";
 		String suffix = "KMGTPE";
 		int unit = 1024;

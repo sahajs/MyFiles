@@ -1,18 +1,18 @@
 package com.trupt.myfiles.model;
 
 public class NumberNSize {
-	private long size;
+	private double size;
 	private long numFiles;
 	
-	public NumberNSize(long size, long numFiles) {
+	public NumberNSize(double size, long numFiles) {
 		super();
 		this.size = size;
 		this.numFiles = numFiles;
 	}
-	public long getSize() {
+	public double getSize() {
 		return size;
 	}
-	public void setSize(long size) {
+	public void setSize(double size) {
 		this.size = size;
 	}
 	public long getNumFiles() {

@@ -1,18 +1,22 @@
 package com.trupt.myfiles.model;
 
+import java.io.Serializable;
+
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
 
 
-public class HomeItems {
+public class HomeItems implements Serializable {
+	
+	private static final long serialVersionUID = 3894694025565054293L;
 	
 	String title;
-	long size;
+	double size;
 	long noOfFiles;
 	String originPath;
 	FragmentNameEnum fragmentNameEnum;
 	int imageResource;
 	
-	public HomeItems(String title, long size, long noOfFiles,
+	public HomeItems(String title, double size, long noOfFiles,
 			String originPath, FragmentNameEnum fragmentNameEnum,
 			int imageResource) {
 		super();
@@ -29,10 +33,10 @@ public class HomeItems {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public long getSize() {
+	public double getSize() {
 		return size;
 	}
-	public void setSize(long size) {
+	public void setSize(double size) {
 		this.size = size;
 	}
 	public long getNoOfFiles() {
@@ -58,5 +62,10 @@ public class HomeItems {
 	}
 	public void setImageResource(int imageResource) {
 		this.imageResource = imageResource;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return this.getOriginPath().equals(((HomeItems)obj).getOriginPath());
 	}
 }

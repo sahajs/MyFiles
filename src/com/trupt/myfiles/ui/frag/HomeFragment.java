@@ -1,15 +1,17 @@
 package com.trupt.myfiles.ui.frag;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.app.ActionBar;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.StatFs;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.text.format.Formatter;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import com.trupt.myfiles.R;
 import com.trupt.myfiles.core.Global;
 import com.trupt.myfiles.model.FavouriteFileManager;
 import com.trupt.myfiles.model.HomeItems;
+import com.trupt.myfiles.model.HomeItemsManager;
 import com.trupt.myfiles.model.NumberNSize;
 import com.trupt.myfiles.model.RecentFileManager;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
@@ -142,7 +145,7 @@ public class HomeFragment extends BaseFragment implements
 	}
 
 	private void populateFileList() {
-		HomeItems item1 = new HomeItems("All Files", 0, 0, "/storage/emulated/0", FragmentNameEnum.AllFilesFragment, R.drawable.ic_my_files);
+		/*HomeItems item1 = new HomeItems("All Files", 0, 0, "/storage/emulated/0", FragmentNameEnum.AllFilesFragment, R.drawable.ic_my_files);
 		HomeItems item2 = new HomeItems("Favourites", 0, 0, "", FragmentNameEnum.FavouriteFilesFragment, R.drawable.ic_my_favorites);
 		HomeItems item3 = new HomeItems("Pictures", 0, 0, "", FragmentNameEnum.PicturesFragment, R.drawable.ic_my_pictures);
 		HomeItems item4 = new HomeItems("Videos", 0, 0, "", FragmentNameEnum.VideosFragment, R.drawable.ic_my_videos);
@@ -157,7 +160,9 @@ public class HomeFragment extends BaseFragment implements
 		listHomeItems.add(item5);
 		listHomeItems.add(item6);
 		listHomeItems.add(item7);
-		listHomeItems.add(item8);
+		listHomeItems.add(item8);*/
+		HomeItemsManager homeItemsManager = HomeItemsManager.getInstance();
+		listHomeItems.addAll(homeItemsManager.getHomeItemsList());
 		adapterhomeItems.notifyDataSetChanged();
 		gridViewHomeItems.setSelection(0);
 		/*for(HomeItems item : listHomeItems) {
@@ -249,9 +254,8 @@ public class HomeFragment extends BaseFragment implements
 				}
 				textViewNumFiles.setText(item.getNoOfFiles() + str);
 			}
-			if(item.getSize() > 0) {
-				textViewSize.setText(Formatter.formatFileSize(activity, item.getSize()));
-			}
+			textViewSize.setText(FileUtil.formatSize(item.getSize()));
+			
 			return view;
 		}
 	}
@@ -265,8 +269,24 @@ public class HomeFragment extends BaseFragment implements
 				FragmentNameEnum fEnum = item.getFragmentNameEnum();
 				NumberNSize numberNSize = null;
 				switch (fEnum) {
-					case AllFilesFragment: {
-						//numberNSize = FileUtil.getNumberNSize(new File("/storage/emulated/0"));
+					case StorageFilesFragment: {
+						if(item.getOriginPath() != null) {
+							File file = new File(item.getOriginPath());
+							if(file != null && file.canRead()) {
+								StatFs statFs = new StatFs(item.getOriginPath());
+								double size = 0;
+								if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+									long blkCnt = statFs.getBlockCount();
+									long blkFree = statFs.getFreeBlocks();
+									size = (blkCnt - blkFree) * statFs.getBlockSize();
+								} else {
+									long blkCnt = statFs.getBlockCountLong(); 
+									long blkFree = statFs.getFreeBlocksLong();
+									size = (blkCnt - blkFree) * statFs.getBlockSizeLong();
+								}
+								numberNSize = new NumberNSize(size, 0);
+							}
+						}
 					}
 					break;
 					

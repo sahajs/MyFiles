@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -47,8 +46,7 @@ import com.trupt.myfiles.ui.frag.lib.MusicFragment;
 import com.trupt.myfiles.ui.frag.lib.PicturesFragment;
 import com.trupt.myfiles.ui.frag.lib.RecentFilesFragment;
 import com.trupt.myfiles.ui.frag.lib.VideosFragment;
-import com.trupt.myfiles.ui.frag.storage.InternalStorageFilesFragment;
-import com.trupt.myfiles.ui.frag.storage.RootFilesFragment;
+import com.trupt.myfiles.ui.frag.storage.StorageFilesFragment;
 
 public class MainActivity extends FragmentActivity implements FileBrowseListener, 
 			OnPageChangeListener, OnChildClickListener, OnGroupClickListener {
@@ -126,7 +124,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if(isDrawerOpen) {
-			return false;
+			return true;
 		}
 		else {
 			menu.findItem(R.id.oiSearch).collapseActionView();
@@ -241,10 +239,10 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	public void onNewFileBrowseStart(FragmentNameEnum fragmentNameEnum, String originPath) {
 		FileFragment fragment = null;
 		switch (fragmentNameEnum) {
-			case AllFilesFragment: {
-				fragment = new InternalStorageFilesFragment();
+			case StorageFilesFragment: {
+				fragment = StorageFilesFragment.getInstance(originPath);
 				Bundle bundle = new Bundle();
-				bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath());
+				bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, originPath);
 				fragment.setArguments(bundle);
 			}
 			break;
@@ -319,22 +317,22 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			}
 			break;
 			case 1: {
-				switch (childPosition) {
+				/*switch (childPosition) {
 					case 0:	{
-						fragment = new InternalStorageFilesFragment();
+						fragment = new StorageFilesFragment();
 						Bundle bundle = new Bundle();
 						bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath());
 						fragment.setArguments(bundle);
 					}
 					break;
 					case 1:	{
-						fragment = new RootFilesFragment();
+						fragment = new StorageFilesFragment();
 						Bundle bundle = new Bundle();
-						bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, "/");
+						bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, Environment.getRootDirectory().getAbsolutePath());
 						fragment.setArguments(bundle);
 					}
 					break;
-				}
+				}*/
 			}
 			break;
 			case 2: {
@@ -481,23 +479,10 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			super.onDrawerOpened(drawerView);
 			setupTitle();
 			isDrawerOpen = true;
-			invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-			/*MyFragSingle fragments = MyFragSingle.getInstance();
-			int index = fragments.getCurrentFragmentIndex();
-			exListViewMainMenu.setSelectedChild(2, 0, true);
-			//exListViewMainMenu.getChildAt(0).setBackgroundColor(Color.RED);
-			exListViewMainMenu.setSelector(R.drawable.selector_list);
-			exListViewMainMenu.setChoiceMode(ExpandableListView.CHOICE_MODE_SINGLE);
-			exListViewMainMenu.setItemChecked(1, true);
-			int count = exListViewMainMenu.getCheckedItemCount();
-			View view = exListViewMainMenu.getChildAt(3);*/
-			
-			//View view = new View(getApplicationContext());
-			//view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			//view.setBackgroundColor(Color.BLUE);
-			//ActionBar actionBar = getActionBar();
-			//actionBar.setCustomView(view);
-			//actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE);
+			invalidateOptionsMenu(); 
+			for(int i = 0; i < adapterMenuExpandableListAdapter.getGroupCount(); i++) {
+				exListViewMainMenu.expandGroup(i, true);
+			}
 		}
 		
 		@Override
@@ -530,9 +515,8 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			int groupPosition, long id) {
 			if(groupPosition == 0 || groupPosition == 3 || groupPosition == 4) {
 				selectItem(groupPosition, 0);
-				return true;
 			}
-		return false;
+		return true;
 	}
 	
 }
