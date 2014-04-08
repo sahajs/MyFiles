@@ -52,6 +52,13 @@ public class MenuExpandableListAdapter implements ExpandableListAdapter {
 			LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = layoutInflater.inflate(R.layout.expand_listview_main_menu_child, null);
 		}
+		
+		//hide separator view for first child
+		View viewSap = (View) view.findViewById(R.id.viewSeparator);
+		if(childPosition == 0) {
+			viewSap.setVisibility(View.INVISIBLE);
+		}
+		
 		TextView textView = (TextView) view.findViewById(R.id.tvMenuName);
 		textView.setPadding(10, 0, 0, 0);
 		textView.setText(mapMenuItems.get(listMenuHeaders.get(groupPosition)).get(childPosition));

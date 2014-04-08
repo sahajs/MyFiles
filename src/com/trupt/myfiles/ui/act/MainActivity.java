@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -46,6 +47,7 @@ import com.trupt.myfiles.ui.frag.lib.MusicFragment;
 import com.trupt.myfiles.ui.frag.lib.PicturesFragment;
 import com.trupt.myfiles.ui.frag.lib.RecentFilesFragment;
 import com.trupt.myfiles.ui.frag.lib.VideosFragment;
+import com.trupt.myfiles.ui.frag.storage.AllFilesFragment;
 import com.trupt.myfiles.ui.frag.storage.StorageFilesFragment;
 
 public class MainActivity extends FragmentActivity implements FileBrowseListener, 
@@ -317,9 +319,9 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			}
 			break;
 			case 1: {
-				/*switch (childPosition) {
+				switch (childPosition) {
 					case 0:	{
-						fragment = new StorageFilesFragment();
+						fragment = new AllFilesFragment();
 						Bundle bundle = new Bundle();
 						bundle.putString(Constants.BundleKey.CURRENT_FILE_PATH, Environment.getExternalStorageDirectory().getAbsolutePath());
 						fragment.setArguments(bundle);
@@ -332,7 +334,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 						fragment.setArguments(bundle);
 					}
 					break;
-				}*/
+				}
 			}
 			break;
 			case 2: {
