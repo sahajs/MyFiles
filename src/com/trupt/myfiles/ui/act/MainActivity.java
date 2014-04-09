@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -50,7 +49,6 @@ import com.trupt.myfiles.ui.frag.lib.MusicFragment;
 import com.trupt.myfiles.ui.frag.lib.PicturesFragment;
 import com.trupt.myfiles.ui.frag.lib.RecentFilesFragment;
 import com.trupt.myfiles.ui.frag.lib.VideosFragment;
-import com.trupt.myfiles.ui.frag.storage.AllFilesFragment;
 import com.trupt.myfiles.ui.frag.storage.StorageFilesFragment;
 import com.trupt.myfiles.util.HomeItemsUtil;
 
@@ -67,8 +65,8 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	private ViewPager viewPagerMain;
 	private LinearLayout linearLayoutMainBottom;
 	
-	private LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems;
-	private ArrayList<String> listMenuHeaders;
+	private LinkedHashMap<HomeItem, ArrayList<HomeItem>> mapMenuItems;
+	private ArrayList<HomeItem> listMenuHeaders;
 	
 	private PagerAdapter adapterPager;
 	private MenuExpandableListAdapter adapterMenuExpandableListAdapter;
@@ -94,8 +92,8 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		exListViewMainMenu = (ExpandableListView) findViewById(R.id.exListViewMainMenu);
 		exListViewMainMenu.setOnChildClickListener(this);
 		exListViewMainMenu.setOnGroupClickListener(this);
-		mapMenuItems = new LinkedHashMap<String, ArrayList<HomeItem>>();
-		listMenuHeaders = new ArrayList<String>();
+		mapMenuItems = new LinkedHashMap<HomeItem, ArrayList<HomeItem>>();
+		listMenuHeaders = new ArrayList<HomeItem>();
 		adapterMenuExpandableListAdapter = new MenuExpandableListAdapter(this, mapMenuItems, listMenuHeaders);
 		
 		viewPagerMain = (ViewPager) findViewById(R.id.viewPagerMain);
@@ -245,6 +243,10 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	public void onNewFileBrowseStart(FragmentNameEnum fragmentNameEnum, String originPath) {
 		FileFragment fragment = null;
 		switch (fragmentNameEnum) {
+			case HomeFragment: {
+				launchHome();
+			}
+			break;
 			case StorageFilesFragment: {
 				fragment = StorageFilesFragment.getInstance(originPath);
 				Bundle bundle = new Bundle();
@@ -315,7 +317,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		updateMainBottomView();
 	}
 	
-	private void selectItem(int groupPosition, int childPosition) {
+	/*private void selectItem(int groupPosition, int childPosition) {
 		BaseFragment fragment = null;
 		switch (groupPosition) {
 			case 0: {
@@ -374,7 +376,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		
 		fragment.setFileBrowseListener(this);
 		updateFragmentListAndDrawer(fragment, childPosition);
-	}
+	}*/
 	
 	private void updateFragmentListAndDrawer(BaseFragment fragment, int childPosition) {
 		MyFragSingle frag = MyFragSingle.getInstance();
@@ -415,24 +417,24 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	}
 	
 	private void populateMenuItems() {
-		listMenuHeaders.add("HOME");
+		listMenuHeaders.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.HOME));
 		mapMenuItems.put(listMenuHeaders.get(0), new ArrayList<HomeItem>(0));
 		
-		listMenuHeaders.add("STORAGE");
+		listMenuHeaders.add(new HomeItem("Storage", 0, 0, "Storage", null, R.drawable.ic_launcher));
 		ArrayList<HomeItem> listMyFiles = new ArrayList<HomeItem>();
 		listMyFiles.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.STORAGE));
 		listMyFiles.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.ROOT));
 		mapMenuItems.put(listMenuHeaders.get(1), listMyFiles);
 		
-		listMenuHeaders.add("LIBRARY");
+		listMenuHeaders.add(new HomeItem("Library", 0, 0, "Library", null, R.drawable.ic_launcher));
 		ArrayList<HomeItem> listLibrary = new ArrayList<HomeItem>();
 		listLibrary.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.LIBRARY));
 		mapMenuItems.put(listMenuHeaders.get(2), listLibrary);
 		
-		listMenuHeaders.add("FAVOURITES");
+		listMenuHeaders.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.FAVOURITE));
 		mapMenuItems.put(listMenuHeaders.get(3), new ArrayList<HomeItem>(0));
 		
-		listMenuHeaders.add("RECENT FILES");
+		listMenuHeaders.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.RECENT));
 		mapMenuItems.put(listMenuHeaders.get(4), new ArrayList<HomeItem>(0));
 		
 		exListViewMainMenu.setAdapter(adapterMenuExpandableListAdapter);
@@ -508,7 +510,10 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	@Override
 	public boolean onChildClick(ExpandableListView listView, View view, int groupPosition,
 			int childPosition, long id) {
-		selectItem(groupPosition, childPosition);
+		HomeItem homeItemKey = listMenuHeaders.get(groupPosition);
+		ArrayList<HomeItem> homeItemValues = mapMenuItems.get(homeItemKey);
+		HomeItem homeItem = homeItemValues.get(childPosition);
+		onNewFileBrowseStart(homeItem.getFragmentNameEnum(), homeItem.getOriginPath());
 		return true;
 	}
 
@@ -516,7 +521,8 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	public boolean onGroupClick(ExpandableListView parent, View view,
 			int groupPosition, long id) {
 			if(groupPosition == 0 || groupPosition == 3 || groupPosition == 4) {
-				selectItem(groupPosition, 0);
+				HomeItem homeItem = listMenuHeaders.get(groupPosition);
+				onNewFileBrowseStart(homeItem.getFragmentNameEnum(), homeItem.getOriginPath());
 			}
 		return true;
 	}

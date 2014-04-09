@@ -3,8 +3,6 @@ package com.trupt.myfiles.util;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.os.Environment;
-
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.model.HomeItem;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
@@ -45,7 +43,7 @@ public class HomeItemsUtil {
 			}
 			break;
 			case ROOT: {
-				HomeItem homeItem = new HomeItem("/ Device", 0, 0, Environment.getRootDirectory().getAbsolutePath(), FragmentNameEnum.StorageFilesFragment, R.drawable.ic_my_files);
+				HomeItem homeItem = new HomeItem("/ Device", 0, 0, "/", FragmentNameEnum.StorageFilesFragment, R.drawable.ic_my_files);
 				listItems.add(homeItem);
 			}
 			break;

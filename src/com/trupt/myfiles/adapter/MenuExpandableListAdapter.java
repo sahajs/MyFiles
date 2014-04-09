@@ -18,12 +18,12 @@ import com.trupt.myfiles.model.HomeItem;
 public class MenuExpandableListAdapter implements ExpandableListAdapter {
 	
 	private Context context;
-	private LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems;
-	private ArrayList<String> listMenuHeaders;
+	private LinkedHashMap<HomeItem, ArrayList<HomeItem>> mapMenuItems;
+	private ArrayList<HomeItem> listMenuHeaders;
 
 	public MenuExpandableListAdapter(Context context,
-			LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems,
-			ArrayList<String> listMenuHeaders) {
+			LinkedHashMap<HomeItem, ArrayList<HomeItem>> mapMenuItems,
+			ArrayList<HomeItem> listMenuHeaders) {
 		super();
 		this.context = context;
 		this.mapMenuItems = mapMenuItems;
@@ -112,7 +112,7 @@ public class MenuExpandableListAdapter implements ExpandableListAdapter {
 			exView.expandGroup(groupPosition);
 		}
 		TextView textView = (TextView) view.findViewById(R.id.tvMenuName);
-		textView.setText(listMenuHeaders.get(groupPosition));
+		textView.setText(listMenuHeaders.get(groupPosition).getTitle());
 		return view;
 	}
 

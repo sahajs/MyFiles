@@ -9,12 +9,12 @@ public class HomeItem implements Serializable {
 	
 	private static final long serialVersionUID = 3894694025565054293L;
 	
-	String title;
-	double size;
-	long noOfFiles;
-	String originPath;
-	FragmentNameEnum fragmentNameEnum;
-	int imageResource;
+	private String title;
+	private double size;
+	private long noOfFiles;
+	private String originPath;
+	private FragmentNameEnum fragmentNameEnum;
+	private int imageResource;
 	
 	public HomeItem(String title, double size, long noOfFiles,
 			String originPath, FragmentNameEnum fragmentNameEnum,
