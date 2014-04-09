@@ -252,10 +252,13 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 	@Override
 	public void updateActionBarItems() {
 		if(horizontalScrollViewFilePath != null) {
-			Animation animation = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
-			horizontalScrollViewFilePath.setAnimation(animation);
-			activity.getActionBar().setCustomView(horizontalScrollViewFilePath);
-			activity.getActionBar().setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+			ActionBar actionBar = activity.getActionBar();
+			if(actionBar.getCustomView() != horizontalScrollViewFilePath) {
+				Animation animation = AnimationUtils.loadAnimation(activity, R.anim.fade_out);
+				horizontalScrollViewFilePath.setAnimation(animation);
+				actionBar.setCustomView(horizontalScrollViewFilePath);
+				actionBar.setDisplayOptions(ActionBar.DISPLAY_HOME_AS_UP | ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+			}
 		}
 	}
 	

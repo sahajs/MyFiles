@@ -40,7 +40,6 @@ import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
 import com.trupt.myfiles.model.enums.HomeItemEnum;
 import com.trupt.myfiles.ui.frag.BaseFragment;
-import com.trupt.myfiles.ui.frag.FileFragment;
 import com.trupt.myfiles.ui.frag.HomeFragment;
 import com.trupt.myfiles.ui.frag.SearchFragment;
 import com.trupt.myfiles.ui.frag.lib.DocumentsFragment;
@@ -241,10 +240,10 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	
 	@Override
 	public void onNewFileBrowseStart(FragmentNameEnum fragmentNameEnum, String originPath) {
-		FileFragment fragment = null;
+		BaseFragment fragment = null;
 		switch (fragmentNameEnum) {
 			case HomeFragment: {
-				launchHome();
+				fragment = HomeFragment.getInstance();
 			}
 			break;
 			case StorageFilesFragment: {
@@ -466,9 +465,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	}
 	
 	private void launchHome() {
-		HomeFragment fragment = HomeFragment.getInstance();
-		fragment.setFileBrowseListener(this);
-		updateFragmentListAndDrawer(fragment, 0);
+		onNewFileBrowseStart(FragmentNameEnum.HomeFragment, "Home");
 	}
 	
 	private class MenuDrawableToggle extends ActionBarDrawerToggle {
