@@ -379,7 +379,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			frag.getListFragmentNames().add(fragment.getFragmentName());
 			adapterPager.notifyDataSetChanged();
 			updateMainBottomView();
-			fragment.updateActionBarItems();
+			//fragment.updateActionBarItems();
 		}
 		// update selected item and title, then close the drawer
 		//exListViewMainMenu.setItemChecked(childPosition, true);
@@ -463,7 +463,9 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	}
 	
 	private void launchHome() {
-		selectItem(0, 0);
+		HomeFragment fragment = HomeFragment.getInstance();
+		fragment.setFileBrowseListener(this);
+		updateFragmentListAndDrawer(fragment, 0);
 	}
 	
 	private class MenuDrawableToggle extends ActionBarDrawerToggle {

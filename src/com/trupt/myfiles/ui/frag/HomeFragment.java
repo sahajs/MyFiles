@@ -50,6 +50,13 @@ public class HomeFragment extends BaseFragment implements
 	
 	protected boolean isFirstTime = true;
 	
+	public static HomeFragment getInstance() {
+		HomeFragment homeFragment = new HomeFragment();
+		homeFragment.currentFilePath = "Home";
+		homeFragment.originFilePath = homeFragment.currentFilePath;
+		return homeFragment;
+	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

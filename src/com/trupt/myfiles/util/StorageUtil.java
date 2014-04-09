@@ -109,14 +109,12 @@ public class StorageUtil {
 		HomeItems item4 = new HomeItems("Videos", 0, 0, "", FragmentNameEnum.VideosFragment, R.drawable.ic_my_videos);
 		HomeItems item5 = new HomeItems("Music", 0, 0, "", FragmentNameEnum.MusicFragment, R.drawable.ic_my_music);
 		HomeItems item6 = new HomeItems("Documents", 0, 0, "", FragmentNameEnum.DocumentsFragment, R.drawable.ic_my_documents);
-		HomeItems item7 = new HomeItems("Downloaded Apps", 0, 0, "/storage/emulated/0", FragmentNameEnum.AllFilesFragment, R.drawable.ic_my_downloaded_apps);
-		HomeItems item8 = new HomeItems("Recent Files", 0, 0, "", FragmentNameEnum.RecentFilesFragment, R.drawable.ic_my_recent_files);		
+		HomeItems item7 = new HomeItems("Recent Files", 0, 0, "", FragmentNameEnum.RecentFilesFragment, R.drawable.ic_my_recent_files);		
 		listItems.add(item2);
 		listItems.add(item3);
 		listItems.add(item4);
 		listItems.add(item5);
 		listItems.add(item6);
-		listItems.add(item8);
 		listItems.add(item7);
 		return listItems;
 	}

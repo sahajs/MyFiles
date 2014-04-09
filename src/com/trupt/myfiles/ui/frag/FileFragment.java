@@ -111,7 +111,7 @@ public abstract class FileFragment extends BaseFragment implements OnItemClickLi
 		super.onActivityCreated(savedInstanceState);
 		restoreSavedInstanceState(savedInstanceState);
 		if(isFirstTime == true) {
-			updateActionBarItems();
+			//updateActionBarItems();
 		}
 		setUpTitle();
 		setUpViews();
