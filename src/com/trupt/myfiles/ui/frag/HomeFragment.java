@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.trupt.myfiles.R;
 import com.trupt.myfiles.core.Global;
 import com.trupt.myfiles.model.FavouriteFileManager;
-import com.trupt.myfiles.model.HomeItems;
+import com.trupt.myfiles.model.HomeItem;
 import com.trupt.myfiles.model.HomeItemsManager;
 import com.trupt.myfiles.model.NumberNSize;
 import com.trupt.myfiles.model.RecentFileManager;
@@ -42,7 +42,7 @@ public class HomeFragment extends BaseFragment implements
 	 
 	private GridView gridViewHomeItems;
 	private HomeItemsAdapter adapterhomeItems;
-	private ArrayList<HomeItems> listHomeItems;
+	private ArrayList<HomeItem> listHomeItems;
 	protected FilePathHorizontalScrollView horizontalScrollViewFilePath;
 	
 	protected String currentFilePath;
@@ -68,7 +68,7 @@ public class HomeFragment extends BaseFragment implements
 		gridViewHomeItems = (GridView) view.findViewById(R.id.gridViewHomeItems);
 		gridViewHomeItems.setOnItemClickListener(this);
 
-		listHomeItems = new ArrayList<HomeItems>();
+		listHomeItems = new ArrayList<HomeItem>();
 		adapterhomeItems = new HomeItemsAdapter(listHomeItems, activity);
 		gridViewHomeItems.setAdapter(adapterhomeItems);
 		
@@ -124,7 +124,7 @@ public class HomeFragment extends BaseFragment implements
 		Vibrator vibrator = (Vibrator) HomeFragment.activity
 				.getSystemService(Context.VIBRATOR_SERVICE);
 		vibrator.vibrate(15);
-		HomeItems homeItems = (HomeItems) gridViewHomeItems.getItemAtPosition(index);
+		HomeItem homeItems = (HomeItem) gridViewHomeItems.getItemAtPosition(index);
 		fileBrowseListener.onNewFileBrowseStart(homeItems.getFragmentNameEnum(), homeItems.getOriginPath());
 	}
 
@@ -210,11 +210,11 @@ public class HomeFragment extends BaseFragment implements
 	
 	private class HomeItemsAdapter extends BaseAdapter {
 
-		ArrayList<HomeItems> listItems;
+		ArrayList<HomeItem> listItems;
 		Context context;
 		View view;
 
-		public HomeItemsAdapter(ArrayList<HomeItems> homeItems, Context context) {
+		public HomeItemsAdapter(ArrayList<HomeItem> homeItems, Context context) {
 			super();
 			this.listItems = homeItems;
 			this.context = context;
@@ -251,7 +251,7 @@ public class HomeFragment extends BaseFragment implements
 			TextView textViewNumFiles = (TextView) view.findViewById(R.id.tvNoOfFiles);
 			TextView textViewSize = (TextView) view.findViewById(R.id.tvSize);
 			
-			final HomeItems item = listItems.get(position);
+			final HomeItem item = listItems.get(position);
 			imageViewImage.setImageResource(item.getImageResource());
 			textViewTitle.setText(item.getTitle());
 			if(item.getNoOfFiles() != 0) {
@@ -272,7 +272,7 @@ public class HomeFragment extends BaseFragment implements
 		@Override
 		protected Void doInBackground(Void... params) {
 			for(int i = 0; i < listHomeItems.size(); i++) {
-				HomeItems item = listHomeItems.get(i);
+				HomeItem item = listHomeItems.get(i);
 				FragmentNameEnum fEnum = item.getFragmentNameEnum();
 				NumberNSize numberNSize = null;
 				switch (fEnum) {

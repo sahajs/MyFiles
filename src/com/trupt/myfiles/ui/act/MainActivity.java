@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AnimationUtils;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -35,8 +36,10 @@ import com.trupt.myfiles.adapter.MenuExpandableListAdapter;
 import com.trupt.myfiles.adapter.ScreenSlidePagerAdapter;
 import com.trupt.myfiles.common.Constants;
 import com.trupt.myfiles.listener.FileBrowseListener;
+import com.trupt.myfiles.model.HomeItem;
 import com.trupt.myfiles.model.MyFragSingle;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
+import com.trupt.myfiles.model.enums.HomeItemEnum;
 import com.trupt.myfiles.ui.frag.BaseFragment;
 import com.trupt.myfiles.ui.frag.FileFragment;
 import com.trupt.myfiles.ui.frag.HomeFragment;
@@ -49,6 +52,7 @@ import com.trupt.myfiles.ui.frag.lib.RecentFilesFragment;
 import com.trupt.myfiles.ui.frag.lib.VideosFragment;
 import com.trupt.myfiles.ui.frag.storage.AllFilesFragment;
 import com.trupt.myfiles.ui.frag.storage.StorageFilesFragment;
+import com.trupt.myfiles.util.HomeItemsUtil;
 
 public class MainActivity extends FragmentActivity implements FileBrowseListener, 
 			OnPageChangeListener, OnChildClickListener, OnGroupClickListener {
@@ -63,7 +67,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	private ViewPager viewPagerMain;
 	private LinearLayout linearLayoutMainBottom;
 	
-	private LinkedHashMap<String, ArrayList<String>> mapMenuItems;
+	private LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems;
 	private ArrayList<String> listMenuHeaders;
 	
 	private PagerAdapter adapterPager;
@@ -90,7 +94,7 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		exListViewMainMenu = (ExpandableListView) findViewById(R.id.exListViewMainMenu);
 		exListViewMainMenu.setOnChildClickListener(this);
 		exListViewMainMenu.setOnGroupClickListener(this);
-		mapMenuItems = new LinkedHashMap<String, ArrayList<String>>();
+		mapMenuItems = new LinkedHashMap<String, ArrayList<HomeItem>>();
 		listMenuHeaders = new ArrayList<String>();
 		adapterMenuExpandableListAdapter = new MenuExpandableListAdapter(this, mapMenuItems, listMenuHeaders);
 		
@@ -406,33 +410,30 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 		textView.setGravity(Gravity.CENTER);
 		float density = getResources().getDisplayMetrics().density;
 		textView.setPadding((int)(8 * density), 0, (int)(8 * density), 0);
-		
+		textView.setAnimation(AnimationUtils.loadAnimation(this, R.anim.fade_out));
 		getActionBar().setCustomView(textView);
 	}
 	
 	private void populateMenuItems() {
 		listMenuHeaders.add("HOME");
-		mapMenuItems.put(listMenuHeaders.get(0), new ArrayList<String>(0));
+		mapMenuItems.put(listMenuHeaders.get(0), new ArrayList<HomeItem>(0));
 		
-		listMenuHeaders.add("MY FILES");
-		ArrayList<String> listMyFiles = new ArrayList<String>();
-		listMyFiles.add("Internal Storage");
-		listMyFiles.add("/");
+		listMenuHeaders.add("STORAGE");
+		ArrayList<HomeItem> listMyFiles = new ArrayList<HomeItem>();
+		listMyFiles.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.STORAGE));
+		listMyFiles.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.ROOT));
 		mapMenuItems.put(listMenuHeaders.get(1), listMyFiles);
 		
 		listMenuHeaders.add("LIBRARY");
-		ArrayList<String> listLibrary = new ArrayList<String>();
-		listLibrary.add("Pictures");
-		listLibrary.add("Videos");
-		listLibrary.add("Music");
-		listLibrary.add("Documents");
+		ArrayList<HomeItem> listLibrary = new ArrayList<HomeItem>();
+		listLibrary.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.LIBRARY));
 		mapMenuItems.put(listMenuHeaders.get(2), listLibrary);
 		
 		listMenuHeaders.add("FAVOURITES");
-		mapMenuItems.put(listMenuHeaders.get(3), new ArrayList<String>(0));
+		mapMenuItems.put(listMenuHeaders.get(3), new ArrayList<HomeItem>(0));
 		
 		listMenuHeaders.add("RECENT FILES");
-		mapMenuItems.put(listMenuHeaders.get(4), new ArrayList<String>(0));
+		mapMenuItems.put(listMenuHeaders.get(4), new ArrayList<HomeItem>(0));
 		
 		exListViewMainMenu.setAdapter(adapterMenuExpandableListAdapter);
 		exListViewMainMenu.expandGroup(0);

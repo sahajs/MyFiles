@@ -10,13 +10,14 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import com.trupt.myfiles.app.MyFilesApplication;
-import com.trupt.myfiles.util.StorageUtil;
+import com.trupt.myfiles.model.enums.HomeItemEnum;
+import com.trupt.myfiles.util.HomeItemsUtil;
 
 public class HomeItemsManager {
 
 	private static final String FILE_NAME = "HomeItemsFiles";
 	public static HomeItemsManager homeItemsManager;
-	private ArrayList<HomeItems> listHomeItems;
+	private ArrayList<HomeItem> listHomeItems;
 	
 	protected HomeItemsManager() {
 		listHomeItems = loadMountedDevices();
@@ -30,7 +31,7 @@ public class HomeItemsManager {
 		return homeItemsManager;
 	}
 	
-	public void addFile(HomeItems homeItem) {
+	public void addFile(HomeItem homeItem) {
 		int index = listHomeItems.indexOf(homeItem);
 		if(index != -1) {
 			listHomeItems.remove(homeItem);
@@ -40,26 +41,28 @@ public class HomeItemsManager {
 		storeHomeItems(listHomeItems);
 	}
 	
-	public ArrayList<HomeItems> getHomeItemsList() {
+	public ArrayList<HomeItem> getHomeItemsList() {
 		return listHomeItems;
 	}
 	
-	private static ArrayList<HomeItems> loadMountedDevices() {
-		ArrayList<HomeItems> mountedDevices = new ArrayList<HomeItems>();
-		mountedDevices.addAll(StorageUtil.getStorageHomeItems());
-		mountedDevices.addAll(StorageUtil.getLibraryHomeItems());
+	private static ArrayList<HomeItem> loadMountedDevices() {
+		ArrayList<HomeItem> mountedDevices = new ArrayList<HomeItem>();
+		mountedDevices.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.STORAGE));
+		mountedDevices.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.LIBRARY));
+		mountedDevices.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.FAVOURITE));
+		mountedDevices.addAll(HomeItemsUtil.getHomeItems(HomeItemEnum.RECENT));
 		//TODO: get from database user defined directories at home location
 		return mountedDevices;
 	}
 	
 	//TODO: Review Use database to store recent files
-	private static ArrayList<HomeItems> loadHomeItems() {
-		ArrayList<HomeItems> favFiles = new ArrayList<HomeItems>();
+	private static ArrayList<HomeItem> loadHomeItems() {
+		ArrayList<HomeItem> favFiles = new ArrayList<HomeItem>();
 		ObjectInputStream oinStream = null;
 		try {
 			File file = new File(MyFilesApplication.getAppContext().getFilesDir(), FILE_NAME);
 			oinStream = new ObjectInputStream(new FileInputStream(file));
-			favFiles.addAll((ArrayList<HomeItems>) oinStream.readObject());
+			favFiles.addAll((ArrayList<HomeItem>) oinStream.readObject());
 		} catch(FileNotFoundException ex) {
 			ex.printStackTrace();
 		} catch (IOException ex) {
@@ -76,7 +79,7 @@ public class HomeItemsManager {
 		return favFiles;
 	}
 	
-	private static void storeHomeItems(ArrayList<HomeItems> homeItems) {
+	private static void storeHomeItems(ArrayList<HomeItem> homeItems) {
 		ObjectOutputStream outStream = null;
 		try {
 			File file = new File(MyFilesApplication.getAppContext().getFilesDir(), FILE_NAME);

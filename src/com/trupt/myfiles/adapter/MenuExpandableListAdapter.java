@@ -13,15 +13,16 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.trupt.myfiles.R;
+import com.trupt.myfiles.model.HomeItem;
 
 public class MenuExpandableListAdapter implements ExpandableListAdapter {
 	
 	private Context context;
-	private LinkedHashMap<String, ArrayList<String>> mapMenuItems;
+	private LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems;
 	private ArrayList<String> listMenuHeaders;
 
 	public MenuExpandableListAdapter(Context context,
-			LinkedHashMap<String, ArrayList<String>> mapMenuItems,
+			LinkedHashMap<String, ArrayList<HomeItem>> mapMenuItems,
 			ArrayList<String> listMenuHeaders) {
 		super();
 		this.context = context;
@@ -62,7 +63,8 @@ public class MenuExpandableListAdapter implements ExpandableListAdapter {
 		
 		TextView textView = (TextView) view.findViewById(R.id.tvMenuName);
 		textView.setPadding(10, 0, 0, 0);
-		textView.setText(mapMenuItems.get(listMenuHeaders.get(groupPosition)).get(childPosition));
+		HomeItem homeItem = mapMenuItems.get(listMenuHeaders.get(groupPosition)).get(childPosition);
+		textView.setText(homeItem.getTitle());
 		return view;
 	}
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import com.trupt.myfiles.model.enums.FragmentNameEnum;
 
 
-public class HomeItems implements Serializable {
+public class HomeItem implements Serializable {
 	
 	private static final long serialVersionUID = 3894694025565054293L;
 	
@@ -16,7 +16,7 @@ public class HomeItems implements Serializable {
 	FragmentNameEnum fragmentNameEnum;
 	int imageResource;
 	
-	public HomeItems(String title, double size, long noOfFiles,
+	public HomeItem(String title, double size, long noOfFiles,
 			String originPath, FragmentNameEnum fragmentNameEnum,
 			int imageResource) {
 		super();
@@ -66,6 +66,6 @@ public class HomeItems implements Serializable {
 	
 	@Override
 	public boolean equals(Object obj) {
-		return this.getOriginPath().equals(((HomeItems)obj).getOriginPath());
+		return this.getOriginPath().equals(((HomeItem)obj).getOriginPath());
 	}
 }
