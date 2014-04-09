@@ -482,9 +482,6 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 			setupTitle();
 			isDrawerOpen = true;
 			invalidateOptionsMenu(); 
-			for(int i = 0; i < adapterMenuExpandableListAdapter.getGroupCount(); i++) {
-				exListViewMainMenu.expandGroup(i, true);
-			}
 		}
 		
 		@Override

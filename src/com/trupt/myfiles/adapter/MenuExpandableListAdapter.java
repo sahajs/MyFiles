@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.trupt.myfiles.R;
@@ -105,6 +106,8 @@ public class MenuExpandableListAdapter implements ExpandableListAdapter {
 		if(view == null) {
 			LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = layoutInflater.inflate(R.layout.expand_listview_main_menu_group, null);
+			ExpandableListView exView = (ExpandableListView) parent;
+			exView.expandGroup(groupPosition);
 		}
 		TextView textView = (TextView) view.findViewById(R.id.tvMenuName);
 		textView.setText(listMenuHeaders.get(groupPosition));
