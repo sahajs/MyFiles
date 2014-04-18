@@ -203,25 +203,20 @@ public class SearchFragment extends FileFragment implements OnFilePathHSVClickLi
 		stopPreviousSearch();
 	}
 	
-	/**
-	 * Handling intent data
-	 */
-	public void handleIntent(Intent intent) {
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			query = intent.getStringExtra(SearchManager.QUERY);
-			Log.e("QUERY", query);
-			initSearch();
-			if(loadingView != null) {
-				loadingView.startAnimation();
-			}
-			searchThread = new SearchThread();
-			searchThread.start();
-			SearchCacheManager searchCache = SearchCacheManager.getInstance();
-			LinkedHashSet<File> searchFiles = searchCache.getSearchCache(query);
-			if(searchFiles != null && !searchFiles.isEmpty()) {
-				alFileList.addAll(searchFiles);
-				fileListAdapter.notifyDataSetChanged();
-			}
+	public void handleSearchIntent(Intent intent) {
+		query = intent.getStringExtra(SearchManager.QUERY);
+		Log.e("QUERY", query);
+		initSearch();
+		if(loadingView != null) {
+			loadingView.startAnimation();
+		}
+		searchThread = new SearchThread();
+		searchThread.start();
+		SearchCacheManager searchCache = SearchCacheManager.getInstance();
+		LinkedHashSet<File> searchFiles = searchCache.getSearchCache(query);
+		if(searchFiles != null && !searchFiles.isEmpty()) {
+			alFileList.addAll(searchFiles);
+			fileListAdapter.notifyDataSetChanged();
 		}
 	}
 		

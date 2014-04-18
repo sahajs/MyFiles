@@ -205,11 +205,15 @@ public class MainActivity extends FragmentActivity implements FileBrowseListener
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		setIntent(intent);
-		MyFragSingle frag = MyFragSingle.getInstance();
-		for(BaseFragment fragment : frag.getListFragments()) {
-			if(fragment instanceof SearchFragment) {
-				((SearchFragment)fragment).handleIntent(intent);
+		if(intent != null) {
+			setIntent(intent);
+			if(intent.getAction().equals(Intent.ACTION_SEARCH)) {
+				MyFragSingle frag = MyFragSingle.getInstance();
+				for(BaseFragment fragment : frag.getListFragments()) {
+					if(fragment instanceof SearchFragment) {
+						((SearchFragment)fragment).handleSearchIntent(intent);
+					}
+				}
 			}
 		}
 	}
