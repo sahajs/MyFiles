@@ -219,6 +219,14 @@ public class FileUtil {
 		return image;
 	}
 	
+	public static int getNumberOfFiles(File file, boolean recursive) {
+		int numFiles = 0;
+		if(file != null && file.exists() && file.canRead()) {
+			numFiles = file.list().length;
+		}
+		return numFiles;
+	}
+	
 	public static NumberNSize getNumberNSize(Uri uri) {
 		String[] projection = new String[]{MediaStore.Images.Media.SIZE};
 		String whereArgs = null;

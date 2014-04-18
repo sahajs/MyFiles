@@ -8,7 +8,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,9 +77,14 @@ public class FileListAdapter extends BaseAdapter {
 		tvFileName.setText(file.getName());
 	
 		if(file.isDirectory()) {
-			tvFileSize.setText("");
+			int numFiles = FileUtil.getNumberOfFiles(file, false);
+			String fileCnt = "Files";
+			if(numFiles < 2) {
+				fileCnt = "File";
+			}
+			tvFileSize.setText(FileUtil.getNumberOfFiles(file, false) + " " + fileCnt);
 		} else {
-			tvFileSize.setText(Formatter.formatFileSize(context, file.length()));
+			tvFileSize.setText(FileUtil.formatSize(file.length()));
 		}
 		
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(
